@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DuetRight — Renovation Cost Explorer</title>
+<style>
+  :root{
+    --amber:#FFBB2F;--orange:#FF8A3D;--amber-deep:#c26a00;--ink:#2C2B2E;--muted:#5c5b5d;
+    --faint:#8a898b;--paper:#FFFDFA;--card:#ffffff;--line:rgba(44,43,46,.1);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--paper)}
+  .wrap{max-width:1080px;margin:0 auto;padding:28px clamp(14px,4vw,36px) 48px}
+  .kicker{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--amber-deep)}
+  h1{margin:6px 0 0;font-size:clamp(24px,4vw,36px);font-weight:800;letter-spacing:-.8px}
+  .sub{margin:10px 0 0;max-width:640px;font-size:15px;line-height:1.6;color:var(--muted)}
+
+  .tabs{display:flex;gap:8px;margin:24px 0 20px;flex-wrap:wrap}
+  .tab{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:10px 20px;
+    font-size:14px;font-weight:700;color:var(--muted);cursor:pointer;transition:all .15s}
+  .tab:hover{border-color:var(--orange)}
+  .tab.on{background:linear-gradient(135deg,var(--amber),var(--orange));color:var(--ink);border-color:transparent}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column}
+  .card .tier{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--amber-deep)}
+  .card h3{margin:6px 0 2px;font-size:17px;font-weight:800;letter-spacing:-.3px}
+  .card .price{font-size:clamp(20px,2.6vw,26px);font-weight:800;color:var(--amber-deep);margin:8px 0 2px;font-variant-numeric:tabular-nums}
+  .card .time{font-size:12.5px;font-weight:600;color:var(--faint);margin-bottom:10px}
+  .card ul{margin:0 0 12px;padding-left:18px;font-size:13.5px;line-height:1.65;color:var(--muted)}
+  .card .roi{font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px;margin-top:auto}
+  .card .roi b{color:var(--ink)}
+  .src{font-size:12px;color:var(--faint);margin-top:14px;line-height:1.5}
+  .src a{color:var(--amber-deep)}
+  .cta{display:inline-block;background:linear-gradient(135deg,var(--amber),var(--orange));color:var(--ink);
+    font-weight:700;font-size:15px;padding:13px 28px;border-radius:10px;text-decoration:none;margin-top:22px}
+  .note{background:#fff7ea;border-left:4px solid var(--orange);border-radius:0 10px 10px 0;
+    padding:14px 18px;font-size:13.5px;line-height:1.6;color:var(--muted);margin-top:24px}
+  .panel{display:none}
+  .panel.on{display:block}
+  .kbig{font-size:15px;line-height:1.65;color:var(--muted);max-width:640px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">Real Seattle numbers · No email required</div>
+  <h1>What will your renovation actually cost?</h1>
+  <p class="sub">These are the same ranges we publish in our guides — not teaser pricing. Pick a project to see honest Seattle bands, timelines, and what each tier really includes.</p>
+
+  <div class="tabs" id="tabs">
+    <button class="tab on" data-p="bath">Bathroom renovation</button>
+    <button class="tab" data-p="t2s">Tub-to-shower conversion</button>
+    <button class="tab" data-p="kitchen">Kitchen renovation</button>
+  </div>
+
+  <div class="panel on" id="p-bath">
+    <div class="grid">
+      <div class="card">
+        <div class="tier">Budget refresh</div>
+        <h3>Same layout, smart choices</h3>
+        <div class="price">~$8,250–$9,250</div>
+        <div class="time">Sample build from our under-$10K guide</div>
+        <ul><li>Keep the existing layout — moving fixtures is where budgets die</li><li>Tub reglazing (~$600) instead of new surround tile</li><li>Stock vanity with top, mid-range faucet, standard toilet</li><li>New floor tile, mirror + light combo, fresh paint and trim</li></ul>
+        <div class="roi">The honest catch: <b>it works only if your layout stays put</b> and nothing hidden turns up behind the walls.</div>
+      </div>
+      <div class="card">
+        <div class="tier">Midrange</div>
+        <h3>Full remodel, same footprint</h3>
+        <div class="price">avg $26,138</div>
+        <div class="time">Typical 5×7 full bathroom</div>
+        <ul><li>All four fixtures updated: toilet, sink, tub, shower</li><li>Durable, timeless finishes over high-end customization</li><li>No footprint expansion, no major layout change</li></ul>
+        <div class="roi">Resale value added: <b>$20,915</b> · Cost recouped: <b>80%</b> — the strongest ROI tier.</div>
+      </div>
+      <div class="card">
+        <div class="tier">Universal design</div>
+        <h3>Aging-in-place, done beautifully</h3>
+        <div class="price">avg $42,183</div>
+        <div class="time">Growing fast in Seattle</div>
+        <ul><li>Fully wheelchair-accessible 5×7 bath — without the clinical look</li><li>Widened entry, curbless shower, blocking for grab bars</li><li>Safety and usability with a clean residential finish</li></ul>
+        <div class="roi">Resale value added: <b>$25,812</b> · Cost recouped: <b>61.2%</b></div>
+      </div>
+      <div class="card">
+        <div class="tier">Upscale</div>
+        <h3>Expansion &amp; retreat</h3>
+        <div class="price">avg $81,612</div>
+        <div class="time">Footprint typically grows ~35 → ~100 sq ft</div>
+        <ul><li>Primary bath expanded into a genuinely larger space</li><li>Layout redefined around comfort and openness</li><li>Experience-first — resale efficiency is not the goal</li></ul>
+        <div class="roi">Resale value added: <b>$34,000</b> · Cost recouped: <b>41.7%</b></div>
+      </div>
+    </div>
+    <p class="src">Sources: our <a href="https://www.duetright.com/blog/seattle-bathroom-remodel-cost" target="_top">2026 Seattle bathroom cost guide</a> (tier averages from the JLC 2025 Cost vs. Value Report) and our <a href="https://www.duetright.com/blog/can-you-renovate-a-bathroom-for-under-10k-in-seattle" target="_top">under-$10K playbook</a>.</p>
+  </div>
+
+  <div class="panel" id="p-t2s">
+    <div class="grid">
+      <div class="card">
+        <div class="tier">Tier 1</div>
+        <h3>Direct swap — acrylic or solid-surface</h3>
+        <div class="price">$7,000–$12,000</div>
+        <div class="time">Typically 3–5 working days</div>
+        <ul><li>Tub out, one-piece or multi-piece shower in — same footprint, same drain</li><li>New valve trim, glass door or curtain rod, patch and paint</li><li>Permanent, code-compliant, genuinely easy to clean</li></ul>
+        <div class="roi">Anyone promising <b>one day</b> is selling a liner over your old tub — different product, different lifespan.</div>
+      </div>
+      <div class="card">
+        <div class="tier">Tier 2</div>
+        <h3>Tiled walk-in — same footprint</h3>
+        <div class="price">$12,000–$20,000</div>
+        <div class="time">Typically 2–3 weeks</div>
+        <ul><li>Full waterproofing system and sloped pan</li><li>Floor-to-ceiling tile, niche, pressure-balancing valve</li><li>Semi-frameless glass panel · plumbing permit usually required</li></ul>
+        <div class="roi">The tile isn't what fails — <b>the membrane underneath is</b>. Most of the labor happens before you ever see tile.</div>
+      </div>
+      <div class="card">
+        <div class="tier">Tier 3</div>
+        <h3>Curbless zero-threshold</h3>
+        <div class="price">$20,000–$32,000</div>
+        <div class="time">Typically 3–4 weeks</div>
+        <ul><li>Recessed or re-framed subfloor for a flush shower floor</li><li>Linear drain, extended waterproofing, larger glass</li><li>Bench and grab-bar blocking · building permit where framing changes</li></ul>
+        <div class="roi">The safest shower you can own — and the best-looking one.</div>
+      </div>
+      <div class="card">
+        <div class="tier">Tier 4</div>
+        <h3>Conversion inside a full renovation</h3>
+        <div class="price">$26,000–$45,000</div>
+        <div class="time">Typically 4–6 weeks</div>
+        <ul><li>The conversion plus flooring, vanity, toilet, lighting</li><li>Exhaust ventilation, electrical, and finishes</li><li>Plumbing and electrical permits typical</li></ul>
+        <div class="roi">One project, one crew, one timeline — instead of two renovations a year apart.</div>
+      </div>
+    </div>
+    <p class="src">Source: our <a href="https://www.duetright.com/blog/tub-to-shower-conversion-seattle" target="_top">tub-to-shower conversion guide</a> — the same tiers, with the full cost table and FAQ.</p>
+  </div>
+
+  <div class="panel" id="p-kitchen">
+    <p class="kbig"><b>We haven't published kitchen price bands yet — on purpose.</b> Kitchen costs swing harder than any other room: cabinets alone can run from stock to custom-millwork money, and owner-supplied appliances change everything. A flat range we couldn't stand behind would be marketing, not information.</p>
+    <p class="kbig" style="margin-top:12px">What we do instead: a scoped, line-item estimate — the same detailed format our bathroom clients get, where every number is attached to a decision you control.</p>
+    <p class="src">Meanwhile: see how we think about kitchens on our <a href="https://www.duetright.com/kitchen-remodel-seattle-wa" target="_top">kitchen renovation page</a>.</p>
+  </div>
+
+  <a class="cta" href="https://www.duetright.com/contact" target="_top">Get a scoped estimate &rarr;</a>
+
+  <div class="note"><b>How to read these numbers:</b> they're honest starting points from our published Seattle guides, not bids. A real quote is scope-based — your home's condition, your material choices, and what we find behind the walls all move the number. We'd rather tell you that up front. <span style="white-space:nowrap">— Angelo &amp; Stan</span></div>
+</div>
+
+<script>
+  var tabs = document.querySelectorAll('.tab');
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      tabs.forEach(function(x){ x.classList.toggle('on', x===t); });
+      document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('on'); });
+      document.getElementById('p-'+t.getAttribute('data-p')).classList.add('on');
+    });
+  });
+</script>
+</body>
+</html>
