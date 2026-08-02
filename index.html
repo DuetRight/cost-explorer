@@ -4,152 +4,571 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>DuetRight — Renovation Cost Explorer</title>
+<meta name="robots" content="noindex" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --amber:#FFBB2F;--orange:#FF8A3D;--amber-deep:#c26a00;--ink:#2C2B2E;--muted:#5c5b5d;
-    --faint:#8a898b;--paper:#FFFDFA;--card:#ffffff;--line:rgba(44,43,46,.1);
+    --amber:#FFBB2F; --orange:#FF8A3D; --amber-deep:#c26a00; --amber-deeper:#a35800;
+    --ink:#2C2B2E; --muted:#5c5b5d; --faint:#8a898b;
+    --paper:#FFFDFA; --line:rgba(44,43,46,.12); --line-soft:rgba(44,43,46,.08); --grid:rgba(44,43,46,.06);
+    --grad:linear-gradient(90deg,var(--amber),var(--orange));
+    --ease-out:cubic-bezier(.22,1,.36,1); --ease-data:cubic-bezier(.16,1,.3,1);
   }
   *{box-sizing:border-box}
-  html,body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--paper)}
-  .wrap{max-width:1080px;margin:0 auto;padding:28px clamp(14px,4vw,36px) 48px}
-  .kicker{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--amber-deep)}
-  h1{margin:6px 0 0;font-size:clamp(24px,4vw,36px);font-weight:800;letter-spacing:-.8px}
-  .sub{margin:10px 0 0;max-width:640px;font-size:15px;line-height:1.6;color:var(--muted)}
+  html,body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    font-size:16px;line-height:1.6}
+  .wrap{max-width:1120px;margin:0 auto;padding:40px clamp(20px,5vw,48px) 56px}
+  a{color:var(--amber-deep)}
 
-  .tabs{display:flex;gap:8px;margin:24px 0 20px;flex-wrap:wrap}
-  .tab{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:10px 20px;
-    font-size:14px;font-weight:700;color:var(--muted);cursor:pointer;transition:all .15s}
-  .tab:hover{border-color:var(--orange)}
-  .tab.on{background:linear-gradient(135deg,var(--amber),var(--orange));color:var(--ink);border-color:transparent}
+  /* ---------- standfirst ---------- */
+  .deck-rule{width:64px;height:2px;background:var(--grad);transform-origin:left center}
+  .kicker{margin-top:18px;font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--amber-deep)}
+  h1{margin:10px 0 0;font-size:clamp(34px,5vw,58px);font-weight:800;letter-spacing:-.025em;line-height:1.08;max-width:16ch}
+  .standfirst{margin:16px 0 0;font-size:clamp(17px,1.4vw,18px);color:var(--muted);max-width:58ch}
 
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column}
-  .card .tier{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--amber-deep)}
-  .card h3{margin:6px 0 2px;font-size:17px;font-weight:800;letter-spacing:-.3px}
-  .card .price{font-size:clamp(20px,2.6vw,26px);font-weight:800;color:var(--amber-deep);margin:8px 0 2px;font-variant-numeric:tabular-nums}
-  .card .time{font-size:12.5px;font-weight:600;color:var(--faint);margin-bottom:10px}
-  .card ul{margin:0 0 12px;padding-left:18px;font-size:13.5px;line-height:1.65;color:var(--muted)}
-  .card .roi{font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px;margin-top:auto}
-  .card .roi b{color:var(--ink)}
-  .src{font-size:12px;color:var(--faint);margin-top:14px;line-height:1.5}
-  .src a{color:var(--amber-deep)}
-  .cta{display:inline-block;background:linear-gradient(135deg,var(--amber),var(--orange));color:var(--ink);
-    font-weight:700;font-size:15px;padding:13px 28px;border-radius:10px;text-decoration:none;margin-top:22px}
-  .note{background:#fff7ea;border-left:4px solid var(--orange);border-radius:0 10px 10px 0;
-    padding:14px 18px;font-size:13.5px;line-height:1.6;color:var(--muted);margin-top:24px}
-  .panel{display:none}
+  /* ---------- tabs ---------- */
+  .tabrow-outer{position:relative;margin-top:56px;border-bottom:1px solid var(--line)}
+  .tabrow{position:relative;display:flex;gap:32px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .tabrow::-webkit-scrollbar{display:none}
+  .tab{appearance:none;background:none;border:0;padding:14px 2px;cursor:pointer;white-space:nowrap;scroll-snap-align:start;
+    font:700 13px/1 'Inter',sans-serif;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);
+    border-bottom:2px solid transparent}
+  .tab[aria-selected="true"]{color:var(--ink)}
+  .tab:focus-visible{outline:2px solid var(--amber-deep);outline-offset:4px}
+  .tabbar{position:absolute;bottom:-1px;height:3px;background:var(--grad);pointer-events:none}
+  .tabrow-outer::after{content:"";position:absolute;top:0;right:0;bottom:0;width:32px;pointer-events:none;
+    background:linear-gradient(90deg,rgba(255,253,250,0),var(--paper))}
+  @media(min-width:721px){.tabrow-outer::after{display:none}}
+
+  /* ---------- panels ---------- */
+  .panels{min-height:340px}
+  .panel{display:none;padding-top:8px}
   .panel.on{display:block}
-  .kbig{font-size:15px;line-height:1.65;color:var(--muted);max-width:640px}
+
+  /* ---------- ladder (bathroom) ---------- */
+  .ladder{margin:44px 0 8px;padding-bottom:26px}
+  .ladder-title{font-size:13px;font-weight:600;color:var(--muted);margin-bottom:58px}
+  .ladder-rail{position:relative;height:2px;background:rgba(44,43,46,.10);border-radius:1px}
+  .ladder-tick{position:absolute;top:-4px;width:1px;height:10px;background:var(--line-soft)}
+  .ladder-tick span{position:absolute;top:12px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--faint);white-space:nowrap}
+  .ladder-dot{position:absolute;top:50%;width:14px;height:14px;border-radius:50%;
+    background:var(--grad);border:1.5px solid var(--ink);transform:translate(-50%,-50%)}
+  .ladder-label{position:absolute;bottom:14px;transform:translateX(-50%);text-align:center;white-space:nowrap}
+  .ladder-label .n{display:block;font-size:12px;color:var(--muted)}
+  .ladder-label .v{display:block;font-size:14px;font-weight:650;color:var(--ink);font-variant-numeric:tabular-nums lining-nums}
+  .ladder-label.edge-r{transform:translateX(-88%)}
+  .ladder-label.edge-l{transform:translateX(-10%)}
+
+  /* ---------- ledger entries ---------- */
+  .entry{display:grid;grid-template-columns:200px 300px 1fr;gap:28px;padding:44px 0;position:relative}
+  .entry + .entry{border-top:1px solid var(--line)}
+  .entry::before{content:"";position:absolute;left:-16px;top:44px;bottom:44px;width:2px;background:var(--amber);
+    transform:scaleY(0);transform-origin:top}
+  .ghost{font-size:44px;font-weight:800;line-height:1;color:rgba(194,106,0,.35)}
+  .tier-name{margin-top:6px;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--amber-deep)}
+  .entry h3{margin:6px 0 0;font-size:17px;font-weight:800;letter-spacing:-.2px}
+  .price-prefix{font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+  .price{font-size:clamp(36px,4vw,52px);font-weight:800;line-height:1.1;letter-spacing:-.02em;color:var(--ink);
+    font-variant-numeric:tabular-nums lining-nums}
+  .price small{font-size:.6em;font-weight:800}
+  .price-meta{margin-top:8px;font-size:13px;color:var(--faint);font-weight:500}
+  .entry ul{margin:0;padding:0;list-style:none;font-size:15px;line-height:1.65;color:var(--muted)}
+  .entry ul li{position:relative;padding-left:18px;margin-bottom:6px}
+  .entry ul li::before{content:"";position:absolute;left:0;top:.62em;width:4px;height:4px;background:var(--amber);outline:1px solid rgba(194,106,0,.45)}
+  .recoup{margin-top:18px}
+  .recoup-label{font-size:14px;color:var(--muted)}
+  .recoup-label b{color:var(--ink);font-weight:650;font-variant-numeric:tabular-nums lining-nums}
+  .meter{margin-top:8px;height:4px;background:var(--line-soft);border-radius:2px;overflow:hidden}
+  .meter i{display:block;height:100%;background:var(--grad);border-radius:2px;transform:scaleX(0);transform-origin:left;width:var(--pct)}
+  .footnote{margin-top:18px;padding-top:12px;border-top:1px solid var(--line);font-size:13.5px;font-style:italic;color:var(--muted)}
+  .footnote b{color:var(--ink);font-style:normal}
+  .chip{display:inline-block;margin-top:10px;font-size:12.5px;font-weight:600;color:var(--ink);font-style:normal;
+    border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-variant-numeric:tabular-nums}
+
+  /* ---------- band strip (tub-to-shower) ---------- */
+  .strip{margin:44px 0 12px;position:relative;padding-bottom:28px}
+  .strip-title{font-size:13px;font-weight:600;color:var(--muted);margin-bottom:20px}
+  .strip-plot{position:relative}
+  .gridline{position:absolute;top:0;bottom:0;width:1px;background:var(--grid)}
+  .gridline span{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--faint);white-space:nowrap}
+  .band-row{position:relative;height:36px;margin-bottom:12px}
+  .band{position:absolute;top:8px;height:20px;border-radius:4px;background:var(--grad);transform:scaleX(0);transform-origin:left}
+  .band-name{position:absolute;top:-8px;font-size:13px;font-weight:650;color:var(--ink);white-space:nowrap}
+  .band-val{position:absolute;top:10px;font-size:13px;font-weight:650;color:var(--ink);white-space:nowrap;
+    font-variant-numeric:tabular-nums lining-nums}
+  .band-val .t{font-weight:500;color:var(--muted);font-size:12px}
+  .band-val.inside{top:11px}
+  .band-val.inside .t{color:var(--ink);opacity:.7}
+
+  /* ---------- kitchen ---------- */
+  .k-display{margin:48px 0 0;font-size:clamp(28px,3.6vw,40px);font-weight:800;letter-spacing:-.02em;line-height:1.15}
+  .k-body{margin:18px 0 0;font-size:18px;line-height:1.7;color:var(--muted);max-width:62ch}
+  .k-body b{color:var(--ink)}
+
+  /* ---------- sources / cta / afterword ---------- */
+  .src{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--faint);line-height:1.6}
+  .src a{color:var(--amber-deep);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+  .cta-block{margin-top:72px;text-align:center}
+  .cta-lead{font-size:20px;font-weight:650;margin:0 0 18px}
+  .cta{display:inline-block;background:var(--grad);color:var(--ink);font-weight:700;font-size:16px;
+    padding:16px 32px;border-radius:12px;text-decoration:none}
+  .cta .arr{display:inline-block}
+  .afterword{margin:64px auto 0;max-width:62ch;padding-top:28px;border-top:1px solid var(--line);
+    font-size:16px;line-height:1.7;color:var(--muted)}
+  .afterword b{color:var(--ink);font-weight:650}
+  .sig{margin-top:14px;font-weight:650;color:var(--ink)}
+  .sig::before{content:"";display:inline-block;width:20px;height:3px;background:var(--grad);margin-right:10px;vertical-align:middle}
+
+  /* ---------- motion (only when .motion-ok on <html>) ---------- */
+  .motion-ok .deck-rule{transform:scaleX(0);transition:transform .6s var(--ease-out)}
+  .motion-ok .deck-rule.is-in{transform:scaleX(1)}
+  .motion-ok .fade-item{opacity:0;transform:translateY(14px);transition:opacity .5s var(--ease-out),transform .5s var(--ease-out)}
+  .motion-ok .fade-item.is-in{opacity:1;transform:none}
+  .motion-ok .entry{opacity:0;transform:translateY(16px);transition:opacity .55s var(--ease-out),transform .55s var(--ease-out)}
+  .motion-ok .entry.is-in{opacity:1;transform:none}
+  .motion-ok .meter i{transition:transform .8s var(--ease-data)}
+  .motion-ok .meter i.go{transform:scaleX(1)}
+  .motion-ok .band{transition:transform .7s var(--ease-data)}
+  .motion-ok .band.go{transform:scaleX(1)}
+  .motion-ok .band-val,.motion-ok .band-name{opacity:0;transform:translateY(4px);transition:opacity .25s ease-out,transform .25s ease-out}
+  .motion-ok .band-val.go,.motion-ok .band-name.go{opacity:1;transform:none}
+  .motion-ok .ladder-dot{opacity:0;transform:translate(-50%,-50%) scale(.4);transition:opacity .25s ease-out,transform .25s ease-out}
+  .motion-ok .ladder-dot.go{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  .motion-ok .tabbar{transition:left .28s cubic-bezier(.4,0,.2,1),width .28s cubic-bezier(.4,0,.2,1)}
+  .motion-ok .panel{transition:opacity .26s var(--ease-out),transform .26s var(--ease-out)}
+  html:not(.motion-ok) .meter i{transform:scaleX(1)}
+  html:not(.motion-ok) .band{transform:scaleX(1)}
+  html:not(.motion-ok) .entry,html:not(.motion-ok) .fade-item{opacity:1;transform:none}
+
+  @media(hover:hover) and (pointer:fine){
+    .motion-ok .tab{transition:color .15s ease-out,border-color .15s ease-out}
+    .tab:hover{color:var(--ink);border-bottom-color:rgba(194,106,0,.4)}
+    .motion-ok .cta{transition:transform .2s ease-out,box-shadow .2s ease-out}
+    .motion-ok .cta .arr{transition:transform .2s ease-out}
+    .cta:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(194,106,0,.18)}
+    .cta:hover .arr{transform:translateX(3px)}
+    .motion-ok .entry::before{transition:transform .2s ease-out}
+    .motion-ok .ghost{transition:color .2s ease-out}
+    .entry:hover::before{transform:scaleY(1)}
+    .entry:hover .ghost{color:var(--amber-deep)}
+    .src a{transition:color .15s,text-decoration-thickness .15s}
+    .src a:hover{color:var(--amber-deeper);text-decoration-thickness:2px}
+  }
+  .cta:active{transform:scale(.98)}
+
+  /* ---------- mobile ---------- */
+  @media(max-width:720px){
+    .wrap{padding-top:28px}
+    h1{font-size:clamp(30px,8.5vw,34px)}
+    .standfirst{font-size:17px}
+    .tabrow-outer{margin-top:40px}
+    .entry{grid-template-columns:1fr;gap:14px;padding:32px 0}
+    .ghost{font-size:28px;display:inline;margin-right:10px;vertical-align:baseline}
+    .tier-name{display:inline;margin-top:0}
+    .price{font-size:clamp(32px,9vw,44px)}
+    .kicker{font-size:11px;letter-spacing:2px}
+    .band-row{height:auto;margin-top:16px;padding-bottom:26px}
+    .band-name{position:static;display:inline;left:auto !important}
+    .band-val{position:static;display:inline;margin-left:6px;left:auto !important;right:auto !important;top:auto !important}
+    .band{top:auto;bottom:0;height:14px}
+    .band-val.inside .t{color:var(--muted);opacity:1}
+    .ladder-label .n{display:none}
+    .ladder-label .v{font-size:12px}
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="kicker">Real Seattle numbers · No email required</div>
-  <h1>What will your renovation actually cost?</h1>
-  <p class="sub">These are the same ranges we publish in our guides — not teaser pricing. Pick a project to see honest Seattle bands, timelines, and what each tier really includes.</p>
+<main class="wrap">
 
-  <div class="tabs" id="tabs">
-    <button class="tab on" data-p="bath">Bathroom renovation</button>
-    <button class="tab" data-p="t2s">Tub-to-shower conversion</button>
-    <button class="tab" data-p="kitchen">Kitchen renovation</button>
+  <div class="deck-rule" id="deckRule"></div>
+  <div class="kicker fade-item">Real Seattle numbers &middot; No email required</div>
+  <h1 class="fade-item">What will your renovation actually cost?</h1>
+  <p class="standfirst fade-item">These are the same ranges we publish in our guides — not teaser pricing. Pick a project to see honest Seattle bands, timelines, and what each tier really includes.</p>
+
+  <div class="tabrow-outer fade-item">
+    <div class="tabrow" role="tablist" aria-label="Project type" id="tabrow">
+      <button class="tab" role="tab" id="tab-bath" aria-controls="p-bath" aria-selected="true">Bathroom renovation</button>
+      <button class="tab" role="tab" id="tab-t2s" aria-controls="p-t2s" aria-selected="false" tabindex="-1">Tub-to-shower</button>
+      <button class="tab" role="tab" id="tab-kitchen" aria-controls="p-kitchen" aria-selected="false" tabindex="-1">Kitchen</button>
+      <span class="tabbar" id="tabbar" aria-hidden="true"></span>
+    </div>
   </div>
 
-  <div class="panel on" id="p-bath">
-    <div class="grid">
-      <div class="card">
-        <div class="tier">Budget refresh</div>
-        <h3>Same layout, smart choices</h3>
-        <div class="price">~$8,250–$9,250</div>
-        <div class="time">Sample build from our under-$10K guide</div>
-        <ul><li>Keep the existing layout — moving fixtures is where budgets die</li><li>Tub reglazing (~$600) instead of new surround tile</li><li>Stock vanity with top, mid-range faucet, standard toilet</li><li>New floor tile, mirror + light combo, fresh paint and trim</li></ul>
-        <div class="roi">The honest catch: <b>it works only if your layout stays put</b> and nothing hidden turns up behind the walls.</div>
-      </div>
-      <div class="card">
-        <div class="tier">Midrange</div>
-        <h3>Full remodel, same footprint</h3>
-        <div class="price">avg $26,138</div>
-        <div class="time">Typical 5×7 full bathroom</div>
-        <ul><li>All four fixtures updated: toilet, sink, tub, shower</li><li>Durable, timeless finishes over high-end customization</li><li>No footprint expansion, no major layout change</li></ul>
-        <div class="roi">Resale value added: <b>$20,915</b> · Cost recouped: <b>80%</b> — the strongest ROI tier.</div>
-      </div>
-      <div class="card">
-        <div class="tier">Universal design</div>
-        <h3>Aging-in-place, done beautifully</h3>
-        <div class="price">avg $42,183</div>
-        <div class="time">Growing fast in Seattle</div>
-        <ul><li>Fully wheelchair-accessible 5×7 bath — without the clinical look</li><li>Widened entry, curbless shower, blocking for grab bars</li><li>Safety and usability with a clean residential finish</li></ul>
-        <div class="roi">Resale value added: <b>$25,812</b> · Cost recouped: <b>61.2%</b></div>
-      </div>
-      <div class="card">
-        <div class="tier">Upscale</div>
-        <h3>Expansion &amp; retreat</h3>
-        <div class="price">avg $81,612</div>
-        <div class="time">Footprint typically grows ~35 → ~100 sq ft</div>
-        <ul><li>Primary bath expanded into a genuinely larger space</li><li>Layout redefined around comfort and openness</li><li>Experience-first — resale efficiency is not the goal</li></ul>
-        <div class="roi">Resale value added: <b>$34,000</b> · Cost recouped: <b>41.7%</b></div>
+  <div class="panels">
+
+  <!-- ================= BATHROOM ================= -->
+  <section class="panel on" id="p-bath" role="tabpanel" aria-labelledby="tab-bath" tabindex="-1">
+
+    <div class="ladder">
+      <div class="ladder-title">Where each tier lands &middot; $0–$90K</div>
+      <div class="ladder-rail">
+        <span class="ladder-tick" style="left:27.8%"><span>$25K</span></span>
+        <span class="ladder-tick" style="left:55.6%"><span>$50K</span></span>
+        <span class="ladder-tick" style="left:83.3%"><span>$75K</span></span>
+        <span class="ladder-label edge-l" style="left:9.7%"><span class="n">Budget refresh</span><span class="v">~$8.8K</span></span>
+        <span class="ladder-label" style="left:29%"><span class="n">Midrange</span><span class="v">avg $26,138</span></span>
+        <span class="ladder-label" style="left:46.9%"><span class="n">Universal design</span><span class="v">avg $42,183</span></span>
+        <span class="ladder-label edge-r" style="left:90.7%"><span class="n">Upscale</span><span class="v">avg $81,612</span></span>
+        <span class="ladder-dot" style="left:9.7%"></span>
+        <span class="ladder-dot" style="left:29%"></span>
+        <span class="ladder-dot" style="left:46.9%"></span>
+        <span class="ladder-dot" style="left:90.7%"></span>
       </div>
     </div>
-    <p class="src">Sources: our <a href="https://www.duetright.com/blog/seattle-bathroom-remodel-cost" target="_top">2026 Seattle bathroom cost guide</a> (tier averages from the JLC 2025 Cost vs. Value Report) and our <a href="https://www.duetright.com/blog/can-you-renovate-a-bathroom-for-under-10k-in-seattle" target="_top">under-$10K playbook</a>.</p>
-  </div>
 
-  <div class="panel" id="p-t2s">
-    <div class="grid">
-      <div class="card">
-        <div class="tier">Tier 1</div>
-        <h3>Direct swap — acrylic or solid-surface</h3>
-        <div class="price">$7,000–$12,000</div>
-        <div class="time">Typically 3–5 working days</div>
-        <ul><li>Tub out, one-piece or multi-piece shower in — same footprint, same drain</li><li>New valve trim, glass door or curtain rod, patch and paint</li><li>Permanent, code-compliant, genuinely easy to clean</li></ul>
-        <div class="roi">Anyone promising <b>one day</b> is selling a liner over your old tub — different product, different lifespan.</div>
+    <article class="entry">
+      <div><div class="ghost" aria-hidden="true">01</div><div class="tier-name">Budget refresh</div><h3>Same layout, smart choices</h3></div>
+      <div><div class="price-prefix">Sample build</div>
+        <div class="price"><span data-count="8250" data-tilde="1">~$8,250</span>–<span data-count="9250">$9,250</span></div>
+        <div class="price-meta">From our under-$10K guide</div></div>
+      <div>
+        <ul>
+          <li>Keep the existing layout — moving fixtures is where budgets die</li>
+          <li>Tub surround reglazing instead of new tile</li>
+          <li>Stock vanity with top, mid-range faucet, standard toilet</li>
+          <li>New floor tile, mirror + light combo, fresh paint and trim</li>
+        </ul>
+        <div class="footnote">The honest catch: <b>it works only if your layout stays put</b> and nothing hidden turns up behind the walls.<br>
+          <span class="chip">tub surround reglazing from ~$600</span></div>
       </div>
-      <div class="card">
-        <div class="tier">Tier 2</div>
-        <h3>Tiled walk-in — same footprint</h3>
-        <div class="price">$12,000–$20,000</div>
-        <div class="time">Typically 2–3 weeks</div>
-        <ul><li>Full waterproofing system and sloped pan</li><li>Floor-to-ceiling tile, niche, pressure-balancing valve</li><li>Semi-frameless glass panel · plumbing permit usually required</li></ul>
-        <div class="roi">The tile isn't what fails — <b>the membrane underneath is</b>. Most of the labor happens before you ever see tile.</div>
+    </article>
+
+    <article class="entry">
+      <div><div class="ghost" aria-hidden="true">02</div><div class="tier-name">Midrange</div><h3>Full renovation, same footprint</h3></div>
+      <div><div class="price-prefix">Average</div>
+        <div class="price"><span data-count="26138">$26,138</span></div>
+        <div class="price-meta">Typical 5×7 full bathroom</div></div>
+      <div>
+        <ul>
+          <li>All four fixtures updated: toilet, sink, tub, shower</li>
+          <li>Durable, timeless finishes over high-end customization</li>
+          <li>No footprint expansion, no major layout change</li>
+        </ul>
+        <div class="recoup">
+          <div class="recoup-label">Resale value added <b>$20,915</b> &middot; <b>80%</b> recouped — the strongest ROI tier</div>
+          <div class="meter"><i style="--pct:80%"></i></div>
+        </div>
       </div>
-      <div class="card">
-        <div class="tier">Tier 3</div>
-        <h3>Curbless zero-threshold</h3>
-        <div class="price">$20,000–$32,000</div>
-        <div class="time">Typically 3–4 weeks</div>
-        <ul><li>Recessed or re-framed subfloor for a flush shower floor</li><li>Linear drain, extended waterproofing, larger glass</li><li>Bench and grab-bar blocking · building permit where framing changes</li></ul>
-        <div class="roi">The safest shower you can own — and the best-looking one.</div>
+    </article>
+
+    <article class="entry">
+      <div><div class="ghost" aria-hidden="true">03</div><div class="tier-name">Universal design</div><h3>Aging-in-place, done beautifully</h3></div>
+      <div><div class="price-prefix">Average</div>
+        <div class="price"><span data-count="42183">$42,183</span></div>
+        <div class="price-meta">Growing fast in Seattle</div></div>
+      <div>
+        <ul>
+          <li>Fully wheelchair-accessible 5×7 bath — without the clinical look</li>
+          <li>Widened entry, curbless shower, blocking for grab bars</li>
+          <li>Safety and usability with a clean residential finish</li>
+        </ul>
+        <div class="recoup">
+          <div class="recoup-label">Resale value added <b>$25,812</b> &middot; <b>61.2%</b> recouped</div>
+          <div class="meter"><i style="--pct:61.2%"></i></div>
+        </div>
       </div>
-      <div class="card">
-        <div class="tier">Tier 4</div>
-        <h3>Conversion inside a full renovation</h3>
-        <div class="price">$26,000–$45,000</div>
-        <div class="time">Typically 4–6 weeks</div>
-        <ul><li>The conversion plus flooring, vanity, toilet, lighting</li><li>Exhaust ventilation, electrical, and finishes</li><li>Plumbing and electrical permits typical</li></ul>
-        <div class="roi">One project, one crew, one timeline — instead of two renovations a year apart.</div>
+    </article>
+
+    <article class="entry">
+      <div><div class="ghost" aria-hidden="true">04</div><div class="tier-name">Upscale</div><h3>Expansion &amp; retreat</h3></div>
+      <div><div class="price-prefix">Average</div>
+        <div class="price"><span data-count="81612">$81,612</span></div>
+        <div class="price-meta">Footprint typically grows ~35 → ~100 sq ft</div></div>
+      <div>
+        <ul>
+          <li>Primary bath expanded into a genuinely larger space</li>
+          <li>Layout redefined around comfort and openness</li>
+          <li>Experience-first — resale efficiency is not the goal</li>
+        </ul>
+        <div class="recoup">
+          <div class="recoup-label">Resale value added <b>$34,000</b> &middot; <b>41.7%</b> recouped</div>
+          <div class="meter"><i style="--pct:41.7%"></i></div>
+        </div>
+      </div>
+    </article>
+
+    <p class="src">Sources: our <a href="https://www.duetright.com/blog/seattle-bathroom-remodel-cost" target="_top">2026 Seattle bathroom cost guide</a> (tier averages from the JLC 2025 Cost&nbsp;vs.&nbsp;Value Report) and our <a href="https://www.duetright.com/blog/can-you-renovate-a-bathroom-for-under-10k-in-seattle" target="_top">under-$10K playbook</a>.</p>
+  </section>
+
+  <!-- ================= TUB-TO-SHOWER ================= -->
+  <section class="panel" id="p-t2s" role="tabpanel" aria-labelledby="tab-t2s" tabindex="-1">
+
+    <div class="strip">
+      <div class="strip-title">Where each tier lands &middot; $0–$45K+</div>
+      <div class="strip-plot">
+        <span class="gridline" style="left:22.2%"><span>$10K</span></span>
+        <span class="gridline" style="left:44.4%"><span>$20K</span></span>
+        <span class="gridline" style="left:66.7%"><span>$30K</span></span>
+        <span class="gridline" style="left:88.9%"><span>$40K</span></span>
+        <div class="band-row">
+          <span class="band-name" style="left:15.6%">Direct swap</span>
+          <div class="band" style="left:15.6%;width:11.1%"></div>
+          <span class="band-val" style="left:28.7%">$7,000–$12,000 <span class="t">&middot; 3–5 days</span></span>
+        </div>
+        <div class="band-row">
+          <span class="band-name" style="left:26.7%">Tiled walk-in</span>
+          <div class="band" style="left:26.7%;width:17.7%"></div>
+          <span class="band-val" style="left:46.4%">$12,000–$20,000 <span class="t">&middot; 2–3 wks</span></span>
+        </div>
+        <div class="band-row">
+          <span class="band-name" style="left:44.4%">Curbless</span>
+          <div class="band" style="left:44.4%;width:26.7%"></div>
+          <span class="band-val" style="left:73.1%">$20,000–$32,000 <span class="t">&middot; 3–4 wks</span></span>
+        </div>
+        <div class="band-row">
+          <span class="band-name" style="left:57.8%">Inside a full renovation</span>
+          <div class="band" style="left:57.8%;width:42.2%"></div>
+          <span class="band-val inside" style="right:2%">$26,000–$45,000+ <span class="t">&middot; 4–6 wks</span></span>
+        </div>
       </div>
     </div>
-    <p class="src">Source: our <a href="https://www.duetright.com/blog/tub-to-shower-conversion-seattle" target="_top">tub-to-shower conversion guide</a> — the same tiers, with the full cost table and FAQ.</p>
-  </div>
 
-  <div class="panel" id="p-kitchen">
-    <p class="kbig"><b>We haven't published kitchen price bands yet — on purpose.</b> Kitchen costs swing harder than any other room: cabinets alone can run from stock to custom-millwork money, and owner-supplied appliances change everything. A flat range we couldn't stand behind would be marketing, not information.</p>
-    <p class="kbig" style="margin-top:12px">What we do instead: a scoped, line-item estimate — the same detailed format our bathroom clients get, where every number is attached to a decision you control.</p>
+    <article class="entry">
+      <div><div class="ghost" aria-hidden="true">01</div><div class="tier-name">Direct swap</div><h3>Acrylic or solid-surface</h3></div>
+      <div><div class="price-prefix">Range</div>
+        <div class="price"><span data-count="7000">$7,000</span>–<span data-count="12000">$12,000</span></div>
+        <div class="price-meta">Typically 3–5 working days</div></div>
+      <div>
+        <ul>
+          <li>Tub out, one-piece or multi-piece shower in — same footprint, same drain</li>
+          <li>New valve trim, glass door or curtain rod, patch and paint</li>
+          <li>Permanent, code-compliant, genuinely easy to clean</li>
+        </ul>
+        <div class="footnote">Anyone promising <b>one day</b> is selling a liner over your old tub — different product, different lifespan.</div>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div><div class="ghost" aria-hidden="true">02</div><div class="tier-name">Tiled walk-in</div><h3>Same footprint</h3></div>
+      <div><div class="price-prefix">Range</div>
+        <div class="price"><span data-count="12000">$12,000</span>–<span data-count="20000">$20,000</span></div>
+        <div class="price-meta">Typically 2–3 weeks</div></div>
+      <div>
+        <ul>
+          <li>Full waterproofing system and sloped pan</li>
+          <li>Floor-to-ceiling tile, niche, pressure-balancing valve</li>
+          <li>Semi-frameless glass panel &middot; plumbing permit usually required</li>
+        </ul>
+        <div class="footnote">The tile isn't what fails — <b>the membrane underneath is</b>. Most of the labor happens before you ever see tile.</div>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div><div class="ghost" aria-hidden="true">03</div><div class="tier-name">Curbless</div><h3>Zero-threshold</h3></div>
+      <div><div class="price-prefix">Range</div>
+        <div class="price"><span data-count="20000">$20,000</span>–<span data-count="32000">$32,000</span></div>
+        <div class="price-meta">Typically 3–4 weeks</div></div>
+      <div>
+        <ul>
+          <li>Recessed or re-framed subfloor for a flush shower floor</li>
+          <li>Linear drain, extended waterproofing, larger glass</li>
+          <li>Bench and grab-bar blocking &middot; building permit where framing changes</li>
+        </ul>
+        <div class="footnote"><b>The safest shower you can own</b> — and the best-looking one.</div>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div><div class="ghost" aria-hidden="true">04</div><div class="tier-name">Full renovation</div><h3>Conversion inside a full renovation</h3></div>
+      <div><div class="price-prefix">Range</div>
+        <div class="price"><span data-count="26000">$26,000</span>–<span data-count="45000">$45,000</span><small>+</small></div>
+        <div class="price-meta">Typically 4–6 weeks</div></div>
+      <div>
+        <ul>
+          <li>The conversion plus flooring, vanity, toilet, lighting</li>
+          <li>Exhaust ventilation, electrical, and finishes</li>
+          <li>Plumbing and electrical permits typical</li>
+        </ul>
+        <div class="footnote"><b>One project, one crew, one timeline</b> — instead of two renovations a year apart.</div>
+      </div>
+    </article>
+
+    <p class="src">Source: our <a href="https://www.duetright.com/blog/tub-to-shower-conversion-seattle" target="_top">tub-to-shower conversion guide</a> — the same tiers, with the full cost table and FAQ. These are typical ranges, not quotes.</p>
+  </section>
+
+  <!-- ================= KITCHEN ================= -->
+  <section class="panel" id="p-kitchen" role="tabpanel" aria-labelledby="tab-kitchen" tabindex="-1">
+    <h2 class="k-display">No price bands. On&nbsp;purpose.</h2>
+    <p class="k-body"><b>We haven't published kitchen price bands yet — deliberately.</b> Kitchen costs swing harder than any other room: cabinets alone can run from stock to custom-millwork money, and owner-supplied appliances change everything. A flat range we couldn't stand behind would be marketing, not information.</p>
+    <p class="k-body">What we do instead: a scoped, line-item estimate — the same detailed format our bathroom clients get, where every number is attached to a decision you control.</p>
     <p class="src">Meanwhile: see how we think about kitchens on our <a href="https://www.duetright.com/kitchen-remodel-seattle-wa" target="_top">kitchen renovation page</a>.</p>
+  </section>
+
+  </div><!-- /panels -->
+
+  <div class="cta-block">
+    <p class="cta-lead">A real number starts with a real scope.</p>
+    <a class="cta" href="https://www.duetright.com/start" target="_top">Get a scoped estimate <span class="arr">&rarr;</span></a>
   </div>
 
-  <a class="cta" href="https://www.duetright.com/start" target="_top">Get a scoped estimate &rarr;</a>
+  <div class="afterword">
+    <b>How to read these numbers:</b> they're honest starting points from our published Seattle guides, not bids. A real quote is scope-based — your home's condition, your material choices, and what we find behind the walls all move the number. We'd rather tell you that up front.
+    <div class="sig">Angelo &amp; Stan</div>
+  </div>
 
-  <div class="note"><b>How to read these numbers:</b> they're honest starting points from our published Seattle guides, not bids. A real quote is scope-based — your home's condition, your material choices, and what we find behind the walls all move the number. We'd rather tell you that up front. <span style="white-space:nowrap">— Angelo &amp; Stan</span></div>
-</div>
+</main>
 
 <script>
-  var tabs = document.querySelectorAll('.tab');
-  tabs.forEach(function(t){
-    t.addEventListener('click', function(){
-      tabs.forEach(function(x){ x.classList.toggle('on', x===t); });
-      document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('on'); });
-      document.getElementById('p-'+t.getAttribute('data-p')).classList.add('on');
+(function(){
+  'use strict';
+  var COUNT_UP = true;
+
+  /* motion governor: .motion-ok only when the user allows motion */
+  var mq = window.matchMedia('(prefers-reduced-motion: no-preference)');
+  function setMotion(){ document.documentElement.classList.toggle('motion-ok', mq.matches); }
+  setMotion();
+  if (mq.addEventListener) mq.addEventListener('change', setMotion);
+  function motion(){ return document.documentElement.classList.contains('motion-ok'); }
+
+  /* entrance choreography */
+  var fadeItems = [].slice.call(document.querySelectorAll('.fade-item'));
+  function entrance(){
+    if (!motion()) { fadeItems.forEach(function(el){ el.classList.add('is-in'); }); return; }
+    setTimeout(function(){
+      document.getElementById('deckRule').classList.add('is-in');
+      fadeItems.forEach(function(el, i){
+        setTimeout(function(){ el.classList.add('is-in'); }, 150 + i * 80);
+      });
+    }, 50);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', entrance);
+  } else { entrance(); }
+
+  /* count-up */
+  function fmt(n, tilde){ return (tilde ? '~$' : '$') + Math.round(n).toLocaleString('en-US'); }
+  function countUp(span){
+    if (span.dataset.done) return;
+    span.dataset.done = '1';
+    var final_ = parseInt(span.dataset.count, 10);
+    var tilde = !!span.dataset.tilde;
+    if (!COUNT_UP || !motion()) { span.textContent = fmt(final_, tilde); return; }
+    var start = final_ * 0.6, t0 = null, DUR = 700;
+    function step(ts){
+      if (!t0) t0 = ts;
+      var t = Math.min(1, (ts - t0) / DUR);
+      var eased = 1 - Math.pow(1 - t, 3);
+      span.textContent = fmt(start + (final_ - start) * eased, tilde);
+      if (t < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  /* scroll reveals */
+  var io = ('IntersectionObserver' in window) ? new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (!en.isIntersecting) return;
+      io.unobserve(en.target);
+      en.target.classList.add('is-in');
+      [].forEach.call(en.target.querySelectorAll('[data-count]'), countUp);
+      setTimeout(function(){
+        [].forEach.call(en.target.querySelectorAll('.meter i'), function(m){ m.classList.add('go'); });
+      }, 200);
     });
+  }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' }) : null;
+
+  var ioStrip = ('IntersectionObserver' in window) ? new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (!en.isIntersecting) return;
+      ioStrip.unobserve(en.target);
+      var bands = en.target.querySelectorAll('.band');
+      var names = en.target.querySelectorAll('.band-name');
+      var vals = en.target.querySelectorAll('.band-val');
+      [].forEach.call(bands, function(b, i){
+        setTimeout(function(){ b.classList.add('go'); }, i * 90);
+        setTimeout(function(){ if (names[i]) names[i].classList.add('go'); if (vals[i]) vals[i].classList.add('go'); }, i * 90 + 350);
+      });
+      [].forEach.call(en.target.querySelectorAll('.ladder-dot'), function(d, i){
+        setTimeout(function(){ d.classList.add('go'); }, i * 90);
+      });
+    });
+  }, { threshold: 0.25 }) : null;
+
+  function finishAll(scope){
+    [].forEach.call(scope.querySelectorAll('.entry'), function(e){ e.classList.add('is-in'); });
+    [].forEach.call(scope.querySelectorAll('[data-count]'), countUp);
+    [].forEach.call(scope.querySelectorAll('.meter i, .band, .band-name, .band-val, .ladder-dot'), function(el){ el.classList.add('go'); });
+  }
+  function arm(panel){
+    if (!io || !motion()) { finishAll(panel); return; }
+    [].forEach.call(panel.querySelectorAll('.entry'), function(e){ io.observe(e); });
+    [].forEach.call(panel.querySelectorAll('.strip, .ladder'), function(s){ ioStrip.observe(s); });
+  }
+
+  /* tabs */
+  var tabs = [].slice.call(document.querySelectorAll('.tab'));
+  var panelOf = { 'tab-bath': 'p-bath', 'tab-t2s': 'p-t2s', 'tab-kitchen': 'p-kitchen' };
+  var tabbar = document.getElementById('tabbar');
+  var armed = { 'p-bath': true };
+
+  function placeBar(){
+    var active = document.querySelector('.tab[aria-selected="true"]');
+    if (!active) return;
+    tabbar.style.left = active.offsetLeft + 'px';
+    tabbar.style.width = active.offsetWidth + 'px';
+  }
+  function activate(tab){
+    var current = document.querySelector('.tab[aria-selected="true"]');
+    if (current === tab) return;
+    var outgoing = document.getElementById(panelOf[current.id]);
+    var incoming = document.getElementById(panelOf[tab.id]);
+    tabs.forEach(function(t){
+      var on = t === tab;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+    });
+    placeBar();
+    function show(){
+      outgoing.classList.remove('on');
+      outgoing.style.opacity = ''; outgoing.style.transform = '';
+      incoming.classList.add('on');
+      if (!armed[incoming.id]) { armed[incoming.id] = true; arm(incoming); }
+      if (motion()) {
+        incoming.style.opacity = '0'; incoming.style.transform = 'translateY(10px)';
+        requestAnimationFrame(function(){ requestAnimationFrame(function(){
+          incoming.style.opacity = '1'; incoming.style.transform = 'none';
+        }); });
+      }
+      requestAnimationFrame(function(){ requestAnimationFrame(postHeight); });
+    }
+    if (motion()) {
+      outgoing.style.opacity = '0'; outgoing.style.transform = 'translateY(-8px)';
+      setTimeout(show, 160);
+    } else { show(); }
+  }
+  tabs.forEach(function(t){ t.addEventListener('click', function(){ activate(t); }); });
+  document.getElementById('tabrow').addEventListener('keydown', function(e){
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    var i = tabs.indexOf(document.activeElement);
+    if (i < 0) return;
+    e.preventDefault();
+    var next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+    next.focus(); activate(next);
   });
+  window.addEventListener('resize', placeBar);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ placeBar(); postHeight(); });
+  placeBar();
+
+  /* arm the initially visible panel */
+  arm(document.getElementById('p-bath'));
+
+  /* iframe auto-height */
+  function postHeight(){
+    try {
+      parent.postMessage({ type: 'dr-ce-height', h: document.documentElement.scrollHeight }, '*');
+    } catch (e) {}
+  }
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(function(){ postHeight(); }).observe(document.documentElement);
+  } else {
+    setInterval(postHeight, 800);
+  }
+  window.addEventListener('load', postHeight);
+  window.addEventListener('orientationchange', function(){ setTimeout(postHeight, 300); });
+})();
 </script>
 </body>
 </html>
