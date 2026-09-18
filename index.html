@@ -10,10 +10,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --amber:#FFBB2F; --orange:#FF8A3D; --amber-deep:#c26a00; --amber-deeper:#a35800;
+    --teal:#037887; --accent:#056D5F; --teal-deep:#056D5F; --teal-deeper:#034740;
     --ink:#2C2B2E; --muted:#5c5b5d; --faint:#8a898b;
     --paper:#FFFDFA; --line:rgba(44,43,46,.12); --line-soft:rgba(44,43,46,.08); --grid:rgba(44,43,46,.06);
-    --grad:linear-gradient(90deg,var(--amber),var(--orange));
+    --grad:linear-gradient(90deg,var(--teal),var(--accent));
     --ease-out:cubic-bezier(.22,1,.36,1); --ease-data:cubic-bezier(.16,1,.3,1);
   }
   *{box-sizing:border-box}
@@ -21,11 +21,11 @@
     font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
     font-size:16px;line-height:1.6}
   .wrap{max-width:1120px;margin:0 auto;padding:40px clamp(20px,5vw,48px) 56px}
-  a{color:var(--amber-deep)}
+  a{color:var(--teal-deep)}
 
   /* ---------- standfirst ---------- */
   .deck-rule{width:64px;height:2px;background:var(--grad);transform-origin:left center}
-  .kicker{margin-top:18px;font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--amber-deep)}
+  .kicker{margin-top:18px;font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal-deep)}
   h1{margin:10px 0 0;font-size:clamp(34px,5vw,58px);font-weight:800;letter-spacing:-.025em;line-height:1.08;max-width:16ch}
   .standfirst{margin:16px 0 0;font-size:clamp(17px,1.4vw,18px);color:var(--muted);max-width:58ch}
 
@@ -37,7 +37,7 @@
     font:700 13px/1 'Inter',sans-serif;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);
     border-bottom:2px solid transparent}
   .tab[aria-selected="true"]{color:var(--ink)}
-  .tab:focus-visible{outline:2px solid var(--amber-deep);outline-offset:4px}
+  .tab:focus-visible{outline:2px solid var(--teal-deep);outline-offset:4px}
   .tabbar{position:absolute;bottom:-1px;height:3px;background:var(--grad);pointer-events:none}
   .tabrow-outer::after{content:"";position:absolute;top:0;right:0;bottom:0;width:32px;pointer-events:none;
     background:linear-gradient(90deg,rgba(255,253,250,0),var(--paper))}
@@ -65,10 +65,10 @@
   /* ---------- ledger entries ---------- */
   .entry{display:grid;grid-template-columns:200px 300px 1fr;gap:28px;padding:44px 0;position:relative}
   .entry + .entry{border-top:1px solid var(--line)}
-  .entry::before{content:"";position:absolute;left:-16px;top:44px;bottom:44px;width:2px;background:var(--amber);
+  .entry::before{content:"";position:absolute;left:-16px;top:44px;bottom:44px;width:2px;background:var(--teal);
     transform:scaleY(0);transform-origin:top}
-  .ghost{font-size:44px;font-weight:800;line-height:1;color:rgba(194,106,0,.35)}
-  .tier-name{margin-top:6px;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--amber-deep)}
+  .ghost{font-size:44px;font-weight:800;line-height:1;color:rgba(3,120,135,.35)}
+  .tier-name{margin-top:6px;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal-deep)}
   .entry h3{margin:6px 0 0;font-size:17px;font-weight:800;letter-spacing:-.2px}
   .price-prefix{font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
   .price{font-size:clamp(36px,4vw,52px);font-weight:800;line-height:1.1;letter-spacing:-.02em;color:var(--ink);
@@ -77,7 +77,7 @@
   .price-meta{margin-top:8px;font-size:13px;color:var(--faint);font-weight:500}
   .entry ul{margin:0;padding:0;list-style:none;font-size:15px;line-height:1.65;color:var(--muted)}
   .entry ul li{position:relative;padding-left:18px;margin-bottom:6px}
-  .entry ul li::before{content:"";position:absolute;left:0;top:.62em;width:4px;height:4px;background:var(--amber);outline:1px solid rgba(194,106,0,.45)}
+  .entry ul li::before{content:"";position:absolute;left:0;top:.62em;width:4px;height:4px;background:var(--teal);outline:1px solid rgba(3,120,135,.45)}
   .recoup{margin-top:18px}
   .recoup-label{font-size:14px;color:var(--muted)}
   .recoup-label b{color:var(--ink);font-weight:650;font-variant-numeric:tabular-nums lining-nums}
@@ -103,17 +103,12 @@
   .band-val.inside{top:11px}
   .band-val.inside .t{color:var(--ink);opacity:.7}
 
-  /* ---------- kitchen ---------- */
-  .k-display{margin:48px 0 0;font-size:clamp(28px,3.6vw,40px);font-weight:800;letter-spacing:-.02em;line-height:1.15}
-  .k-body{margin:18px 0 0;font-size:18px;line-height:1.7;color:var(--muted);max-width:62ch}
-  .k-body b{color:var(--ink)}
-
   /* ---------- sources / cta / afterword ---------- */
   .src{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--faint);line-height:1.6}
-  .src a{color:var(--amber-deep);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+  .src a{color:var(--teal-deep);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
   .cta-block{margin-top:72px;text-align:center}
   .cta-lead{font-size:20px;font-weight:650;margin:0 0 18px}
-  .cta{display:inline-block;background:var(--grad);color:var(--ink);font-weight:700;font-size:16px;
+  .cta{display:inline-block;background:var(--grad);color:var(--paper);font-weight:700;font-size:16px;
     padding:16px 32px;border-radius:12px;text-decoration:none}
   .cta .arr{display:inline-block}
   .afterword{margin:64px auto 0;max-width:62ch;padding-top:28px;border-top:1px solid var(--line);
@@ -145,17 +140,17 @@
 
   @media(hover:hover) and (pointer:fine){
     .motion-ok .tab{transition:color .15s ease-out,border-color .15s ease-out}
-    .tab:hover{color:var(--ink);border-bottom-color:rgba(194,106,0,.4)}
+    .tab:hover{color:var(--ink);border-bottom-color:rgba(3,120,135,.4)}
     .motion-ok .cta{transition:transform .2s ease-out,box-shadow .2s ease-out}
     .motion-ok .cta .arr{transition:transform .2s ease-out}
-    .cta:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(194,106,0,.18)}
+    .cta:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(3,120,135,.22)}
     .cta:hover .arr{transform:translateX(3px)}
     .motion-ok .entry::before{transition:transform .2s ease-out}
     .motion-ok .ghost{transition:color .2s ease-out}
     .entry:hover::before{transform:scaleY(1)}
-    .entry:hover .ghost{color:var(--amber-deep)}
+    .entry:hover .ghost{color:var(--teal-deep)}
     .src a{transition:color .15s,text-decoration-thickness .15s}
-    .src a:hover{color:var(--amber-deeper);text-decoration-thickness:2px}
+    .src a:hover{color:var(--teal-deeper);text-decoration-thickness:2px}
   }
   .cta:active{transform:scale(.98)}
 
@@ -192,7 +187,6 @@
     <div class="tabrow" role="tablist" aria-label="Project type" id="tabrow">
       <button class="tab" role="tab" id="tab-bath" aria-controls="p-bath" aria-selected="true">Bathroom renovation</button>
       <button class="tab" role="tab" id="tab-t2s" aria-controls="p-t2s" aria-selected="false" tabindex="-1">Tub-to-shower</button>
-      <button class="tab" role="tab" id="tab-kitchen" aria-controls="p-kitchen" aria-selected="false" tabindex="-1">Kitchen</button>
       <span class="tabbar" id="tabbar" aria-hidden="true"></span>
     </div>
   </div>
@@ -389,14 +383,6 @@
     <p class="src">Source: our <a href="https://www.duetright.com/blog/tub-to-shower-conversion-seattle" target="_top">tub-to-shower conversion guide</a> — the same tiers, with the full cost table and FAQ. These are typical ranges, not quotes.</p>
   </section>
 
-  <!-- ================= KITCHEN ================= -->
-  <section class="panel" id="p-kitchen" role="tabpanel" aria-labelledby="tab-kitchen" tabindex="-1">
-    <h2 class="k-display">No price bands. On&nbsp;purpose.</h2>
-    <p class="k-body"><b>We haven't published kitchen price bands yet — deliberately.</b> Kitchen costs swing harder than any other room: cabinets alone can run from stock to custom-millwork money, and owner-supplied appliances change everything. A flat range we couldn't stand behind would be marketing, not information.</p>
-    <p class="k-body">What we do instead: a scoped, line-item estimate — the same detailed format our bathroom clients get, where every number is attached to a decision you control.</p>
-    <p class="src">Meanwhile: see how we think about kitchens on our <a href="https://www.duetright.com/kitchen-remodel-seattle-wa" target="_top">kitchen renovation page</a>.</p>
-  </section>
-
   </div><!-- /panels -->
 
   <div class="cta-block">
@@ -500,7 +486,7 @@
 
   /* tabs */
   var tabs = [].slice.call(document.querySelectorAll('.tab'));
-  var panelOf = { 'tab-bath': 'p-bath', 'tab-t2s': 'p-t2s', 'tab-kitchen': 'p-kitchen' };
+  var panelOf = { 'tab-bath': 'p-bath', 'tab-t2s': 'p-t2s' };
   var tabbar = document.getElementById('tabbar');
   var armed = { 'p-bath': true };
 
