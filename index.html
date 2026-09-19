@@ -26,11 +26,11 @@
   /* ---------- standfirst ---------- */
   .deck-rule{width:64px;height:2px;background:var(--grad);transform-origin:left center}
   .kicker{margin-top:18px;font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal-deep)}
-  h1{margin:10px 0 0;font-size:clamp(34px,5vw,58px);font-weight:800;letter-spacing:-.025em;line-height:1.08;max-width:16ch}
-  .standfirst{margin:16px 0 0;font-size:clamp(17px,1.4vw,18px);color:var(--muted);max-width:58ch}
+  h1{margin:10px 0 0;font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-.025em;line-height:1.12;max-width:18ch}
+  .standfirst{margin:16px 0 0;font-size:clamp(17px,1.4vw,18px);color:var(--muted);max-width:62ch}
 
   /* ---------- tabs ---------- */
-  .tabrow-outer{position:relative;margin-top:56px;border-bottom:1px solid var(--line)}
+  .tabrow-outer{position:relative;margin-top:40px;border-bottom:1px solid var(--line)}
   .tabrow{position:relative;display:flex;gap:32px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
   .tabrow::-webkit-scrollbar{display:none}
   .tab{appearance:none;background:none;border:0;padding:14px 2px;cursor:pointer;white-space:nowrap;scroll-snap-align:start;
@@ -43,6 +43,21 @@
     background:linear-gradient(90deg,rgba(255,253,250,0),var(--paper))}
   @media(min-width:721px){.tabrow-outer::after{display:none}}
 
+  /* ---------- trust strip ---------- */
+  .trust{position:sticky;top:0;z-index:20;margin-top:20px;
+    background:var(--paper);border:1px solid var(--line);border-radius:12px;
+    padding:14px 18px 12px;box-shadow:0 8px 24px rgba(44,43,46,.06);
+    transform:none}
+  .trust-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 28px}
+  .trust h2{margin:0 0 6px;font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase}
+  .trust-in h2{color:var(--teal-deep)}
+  .trust-out h2{color:var(--muted)}
+  .trust p{margin:0;font-size:13.5px;line-height:1.5;color:var(--muted)}
+  .trust-cta{margin:12px 0 0;padding-top:10px;border-top:1px solid var(--line-soft);
+    font-size:13.5px;color:var(--ink)}
+  .trust-cta a{font-weight:700;text-decoration:none;border-bottom:1px solid rgba(5,109,95,.45)}
+  .trust-cta a:focus-visible{outline:2px solid var(--teal-deep);outline-offset:3px}
+
   /* ---------- panels ---------- */
   .panels{min-height:340px}
   .panel{display:none;padding-top:8px}
@@ -50,7 +65,7 @@
 
   /* ---------- ladder (bathroom) ---------- */
   .ladder{margin:44px 0 8px;padding-bottom:26px}
-  .ladder-title{font-size:13px;font-weight:600;color:var(--muted);margin-bottom:58px}
+  .ladder-title{font-size:13px;font-weight:600;color:var(--muted);margin-bottom:76px}
   .ladder-rail{position:relative;height:2px;background:rgba(44,43,46,.10);border-radius:1px}
   .ladder-tick{position:absolute;top:-4px;width:1px;height:10px;background:var(--line-soft)}
   .ladder-tick span{position:absolute;top:12px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--faint);white-space:nowrap}
@@ -58,35 +73,55 @@
     background:var(--grad);border:1.5px solid var(--ink);transform:translate(-50%,-50%)}
   .ladder-label{position:absolute;bottom:14px;transform:translateX(-50%);text-align:center;white-space:nowrap}
   .ladder-label .n{display:block;font-size:12px;color:var(--muted)}
-  .ladder-label .v{display:block;font-size:14px;font-weight:650;color:var(--ink);font-variant-numeric:tabular-nums lining-nums}
+  .ladder-label .v{display:block;font-size:13px;font-weight:650;color:var(--ink);font-variant-numeric:tabular-nums lining-nums}
+  .ladder-label .kind{display:block;font-size:10px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:var(--faint)}
   .ladder-label.edge-r{transform:translateX(-88%)}
   .ladder-label.edge-l{transform:translateX(-10%)}
 
   /* ---------- ledger entries ---------- */
-  .entry{display:grid;grid-template-columns:200px 300px 1fr;gap:28px;padding:44px 0;position:relative}
+  .entry{padding:44px 0;position:relative}
   .entry + .entry{border-top:1px solid var(--line)}
   .entry::before{content:"";position:absolute;left:-16px;top:44px;bottom:44px;width:2px;background:var(--teal);
     transform:scaleY(0);transform-origin:top}
+  .entry-top{display:grid;grid-template-columns:220px minmax(240px,1fr);gap:28px;align-items:start;margin-bottom:22px}
   .ghost{font-size:44px;font-weight:800;line-height:1;color:rgba(3,120,135,.35)}
   .tier-name{margin-top:6px;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal-deep)}
   .entry h3{margin:6px 0 0;font-size:17px;font-weight:800;letter-spacing:-.2px}
-  .price-prefix{font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+  .price-prefix{font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--teal-deep);max-width:36ch}
   .price{font-size:clamp(36px,4vw,52px);font-weight:800;line-height:1.1;letter-spacing:-.02em;color:var(--ink);
     font-variant-numeric:tabular-nums lining-nums}
   .price small{font-size:.6em;font-weight:800}
   .price-meta{margin-top:8px;font-size:13px;color:var(--faint);font-weight:500}
-  .entry ul{margin:0;padding:0;list-style:none;font-size:15px;line-height:1.65;color:var(--muted)}
-  .entry ul li{position:relative;padding-left:18px;margin-bottom:6px}
-  .entry ul li::before{content:"";position:absolute;left:0;top:.62em;width:4px;height:4px;background:var(--teal);outline:1px solid rgba(3,120,135,.45)}
-  .recoup{margin-top:18px}
+
+  .blocks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px 28px}
+  .block h4{margin:0 0 10px;font-size:11px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase}
+  .block-in h4{color:var(--teal-deep)}
+  .block-out h4{color:var(--muted)}
+  .block-move h4{color:var(--ink)}
+  .block ul{margin:0;padding:0;list-style:none;font-size:14.5px;line-height:1.6;color:var(--muted)}
+  .block ul li{position:relative;padding-left:16px;margin-bottom:7px}
+  .block-in ul li::before{content:"";position:absolute;left:0;top:.62em;width:4px;height:4px;background:var(--teal);outline:1px solid rgba(3,120,135,.45)}
+  .block-out ul li::before{content:"";position:absolute;left:0;top:.68em;width:8px;height:1.5px;background:var(--faint)}
+  .block-move ul li::before{content:"";position:absolute;left:0;top:.55em;width:5px;height:5px;border:1.5px solid var(--teal-deep);border-radius:1px}
+
+  .recoup{margin-top:20px;padding-top:14px;border-top:1px solid var(--line)}
   .recoup-label{font-size:14px;color:var(--muted)}
   .recoup-label b{color:var(--ink);font-weight:650;font-variant-numeric:tabular-nums lining-nums}
   .meter{margin-top:8px;height:4px;background:var(--line-soft);border-radius:2px;overflow:hidden}
   .meter i{display:block;height:100%;background:var(--grad);border-radius:2px;transform:scaleX(0);transform-origin:left;width:var(--pct)}
-  .footnote{margin-top:18px;padding-top:12px;border-top:1px solid var(--line);font-size:13.5px;font-style:italic;color:var(--muted)}
+  .footnote{margin-top:16px;padding-top:12px;border-top:1px solid var(--line);font-size:13.5px;font-style:italic;color:var(--muted)}
   .footnote b{color:var(--ink);font-style:normal}
   .chip{display:inline-block;margin-top:10px;font-size:12.5px;font-weight:600;color:var(--ink);font-style:normal;
     border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-variant-numeric:tabular-nums}
+
+  /* ---------- microcement pairing ---------- */
+  .pair{margin:36px 0 8px;padding:20px 22px;border:1px solid var(--line);border-radius:12px;background:rgba(3,120,135,.04)}
+  .pair-kicker{margin:0 0 6px;font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--teal-deep)}
+  .pair h3{margin:0 0 8px;font-size:17px;font-weight:800;letter-spacing:-.2px}
+  .pair p{margin:0;font-size:15px;line-height:1.65;color:var(--muted);max-width:68ch}
+  .pair-links{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px 18px}
+  .pair-links a{font-weight:650;text-decoration:none;border-bottom:1px solid rgba(5,109,95,.4)}
+  .pair-links a:focus-visible{outline:2px solid var(--teal-deep);outline-offset:3px}
 
   /* ---------- band strip (tub-to-shower) ---------- */
   .strip{margin:44px 0 12px;position:relative;padding-bottom:28px}
@@ -111,6 +146,7 @@
   .cta{display:inline-block;background:var(--grad);color:var(--paper);font-weight:700;font-size:16px;
     padding:16px 32px;border-radius:12px;text-decoration:none}
   .cta .arr{display:inline-block}
+  .cta:focus-visible{outline:2px solid var(--teal-deep);outline-offset:4px}
   .afterword{margin:64px auto 0;max-width:62ch;padding-top:28px;border-top:1px solid var(--line);
     font-size:16px;line-height:1.7;color:var(--muted)}
   .afterword b{color:var(--ink);font-weight:650}
@@ -149,28 +185,32 @@
     .motion-ok .ghost{transition:color .2s ease-out}
     .entry:hover::before{transform:scaleY(1)}
     .entry:hover .ghost{color:var(--teal-deep)}
-    .src a{transition:color .15s,text-decoration-thickness .15s}
-    .src a:hover{color:var(--teal-deeper);text-decoration-thickness:2px}
+    .src a,.pair-links a,.trust-cta a{transition:color .15s,text-decoration-thickness .15s,border-color .15s}
+    .src a:hover,.pair-links a:hover,.trust-cta a:hover{color:var(--teal-deeper);text-decoration-thickness:2px;border-bottom-color:var(--teal-deeper)}
   }
   .cta:active{transform:scale(.98)}
 
   /* ---------- mobile ---------- */
   @media(max-width:720px){
     .wrap{padding-top:28px}
-    h1{font-size:clamp(30px,8.5vw,34px)}
+    h1{font-size:clamp(26px,8vw,32px)}
     .standfirst{font-size:17px}
-    .tabrow-outer{margin-top:40px}
-    .entry{grid-template-columns:1fr;gap:14px;padding:32px 0}
+    .tabrow-outer{margin-top:32px}
+    .trust{padding:14px 14px 12px}
+    .trust-grid{grid-template-columns:1fr;gap:12px}
+    .entry{padding:32px 0}
+    .entry-top{grid-template-columns:1fr;gap:12px;margin-bottom:18px}
     .ghost{font-size:28px;display:inline;margin-right:10px;vertical-align:baseline}
     .tier-name{display:inline;margin-top:0}
     .price{font-size:clamp(32px,9vw,44px)}
     .kicker{font-size:11px;letter-spacing:2px}
+    .blocks{grid-template-columns:1fr;gap:16px}
     .band-row{height:auto;margin-top:16px;padding-bottom:26px}
     .band-name{position:static;display:inline;left:auto !important}
     .band-val{position:static;display:inline;margin-left:6px;left:auto !important;right:auto !important;top:auto !important}
     .band{top:auto;bottom:0;height:14px}
     .band-val.inside .t{color:var(--muted);opacity:1}
-    .ladder-label .n{display:none}
+    .ladder-label .n,.ladder-label .kind{display:none}
     .ladder-label .v{font-size:12px}
   }
 </style>
@@ -180,8 +220,8 @@
 
   <div class="deck-rule" id="deckRule"></div>
   <div class="kicker fade-item">Real Seattle numbers &middot; No email required</div>
-  <h1 class="fade-item">What will your renovation actually cost?</h1>
-  <p class="standfirst fade-item">These are the same ranges we publish in our guides — not teaser pricing. Pick a project to see honest Seattle bands, timelines, and what each tier really includes.</p>
+  <h1 class="fade-item">Browse Seattle cost bands</h1>
+  <p class="standfirst fade-item">These are the same ranges we publish in our guides — not a personalized calculator, not teaser pricing. Pick a project to see what a tier includes, what it does not, and what moves the number.</p>
 
   <div class="tabrow-outer fade-item">
     <div class="tabrow" role="tablist" aria-label="Project type" id="tabrow">
@@ -191,21 +231,35 @@
     </div>
   </div>
 
+  <aside class="trust" aria-label="What these cost bands include">
+    <div class="trust-grid">
+      <div class="trust-in">
+        <h2>In these bands</h2>
+        <p>Labor + materials for the named scope. Seattle residential. Starting points from our published guides.</p>
+      </div>
+      <div class="trust-out">
+        <h2>Never in these bands</h2>
+        <p>Permit fees when required, design retainers, structural surprises, asbestos/lead remediation, fixture or finish upgrades beyond the tier story, HOA fees.</p>
+      </div>
+    </div>
+    <p class="trust-cta">A real number starts with a walkthrough — <a href="https://www.duetright.com/start" target="_top">Get a free quote</a>.</p>
+  </aside>
+
   <div class="panels">
 
   <!-- ================= BATHROOM ================= -->
   <section class="panel on" id="p-bath" role="tabpanel" aria-labelledby="tab-bath" tabindex="-1">
 
     <div class="ladder">
-      <div class="ladder-title">Where each tier lands &middot; $0–$90K</div>
+      <div class="ladder-title">Where each tier lands &middot; range vs typical average &middot; $0–$90K</div>
       <div class="ladder-rail">
         <span class="ladder-tick" style="left:27.8%"><span>$25K</span></span>
         <span class="ladder-tick" style="left:55.6%"><span>$50K</span></span>
         <span class="ladder-tick" style="left:83.3%"><span>$75K</span></span>
-        <span class="ladder-label edge-l" style="left:9.7%"><span class="n">Budget refresh</span><span class="v">~$8.8K</span></span>
-        <span class="ladder-label" style="left:29%"><span class="n">Midrange</span><span class="v">avg $26,138</span></span>
-        <span class="ladder-label" style="left:46.9%"><span class="n">Universal design</span><span class="v">avg $42,183</span></span>
-        <span class="ladder-label edge-r" style="left:90.7%"><span class="n">Upscale</span><span class="v">avg $81,612</span></span>
+        <span class="ladder-label edge-l" style="left:9.7%"><span class="n">Budget refresh</span><span class="kind">Range</span><span class="v">~$8.8K</span></span>
+        <span class="ladder-label" style="left:29%"><span class="n">Midrange</span><span class="kind">Typical avg</span><span class="v">$26,138</span></span>
+        <span class="ladder-label" style="left:46.9%"><span class="n">Universal design</span><span class="kind">Typical avg</span><span class="v">$42,183</span></span>
+        <span class="ladder-label edge-r" style="left:90.7%"><span class="n">Upscale</span><span class="kind">Typical avg</span><span class="v">$81,612</span></span>
         <span class="ladder-dot" style="left:9.7%"></span>
         <span class="ladder-dot" style="left:29%"></span>
         <span class="ladder-dot" style="left:46.9%"></span>
@@ -214,75 +268,183 @@
     </div>
 
     <article class="entry">
-      <div><div class="ghost" aria-hidden="true">01</div><div class="tier-name">Budget refresh</div><h3>Same layout, smart choices</h3></div>
-      <div><div class="price-prefix">Sample build</div>
-        <div class="price"><span data-count="8250" data-tilde="1">~$8,250</span>–<span data-count="9250">$9,250</span></div>
-        <div class="price-meta">From our under-$10K guide</div></div>
-      <div>
-        <ul>
-          <li>Keep the existing layout — moving fixtures is where budgets die</li>
-          <li>Tub surround reglazing instead of new tile</li>
-          <li>Stock vanity with top, mid-range faucet, standard toilet</li>
-          <li>New floor tile, mirror + light combo, fresh paint and trim</li>
-        </ul>
-        <div class="footnote">The honest catch: <b>it works only if your layout stays put</b> and nothing hidden turns up behind the walls.<br>
-          <span class="chip">tub surround reglazing from ~$600</span></div>
+      <div class="entry-top">
+        <div><div class="ghost" aria-hidden="true">01</div><div class="tier-name">Budget refresh</div><h3>Same layout, smart choices</h3></div>
+        <div>
+          <div class="price-prefix">Range</div>
+          <div class="price"><span data-count="8250" data-tilde="1">~$8,250</span>–<span data-count="9250">$9,250</span></div>
+          <div class="price-meta">Sample build from our under-$10K guide</div>
+        </div>
+      </div>
+      <div class="blocks">
+        <div class="block block-in">
+          <h4>Includes</h4>
+          <ul>
+            <li>Existing layout stays put — fixtures stay where they are</li>
+            <li>Tub surround reglazing instead of new tile</li>
+            <li>Stock vanity with top, mid-range faucet, standard toilet</li>
+            <li>New floor tile, mirror + light combo, fresh paint and trim</li>
+          </ul>
+        </div>
+        <div class="block block-out">
+          <h4>Not included</h4>
+          <ul>
+            <li>Moving the toilet, tub, or vanity</li>
+            <li>New waterproofing or a tiled shower</li>
+            <li>Permit fees, design retainers, or hidden-wall repairs</li>
+          </ul>
+        </div>
+        <div class="block block-move">
+          <h4>What moves the number</h4>
+          <ul>
+            <li>Layout changes or fixture moves — those change the plumbing scope</li>
+            <li>What’s behind the walls once we open them</li>
+            <li>Finish upgrades beyond this sample build</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footnote">This band holds when the layout stays put and nothing hidden turns up.<br>
+        <span class="chip">tub surround reglazing from ~$600</span></div>
+    </article>
+
+    <article class="entry">
+      <div class="entry-top">
+        <div><div class="ghost" aria-hidden="true">02</div><div class="tier-name">Midrange</div><h3>Full renovation, same footprint</h3></div>
+        <div>
+          <div class="price-prefix">Typical avg from JLC / our guide</div>
+          <div class="price"><span data-count="26138">$26,138</span></div>
+          <div class="price-meta">Typical 5×7 full bathroom</div>
+        </div>
+      </div>
+      <div class="blocks">
+        <div class="block block-in">
+          <h4>Includes</h4>
+          <ul>
+            <li>All four fixtures updated: toilet, sink, tub, shower</li>
+            <li>Durable, timeless finishes — not high-end customization</li>
+            <li>Same footprint: no expansion, no major layout change</li>
+            <li>Labor + materials for a typical Seattle 5×7</li>
+          </ul>
+        </div>
+        <div class="block block-out">
+          <h4>Not included</h4>
+          <ul>
+            <li>Expanding the room or moving walls</li>
+            <li>Designer fixtures or custom millwork</li>
+            <li>Permit fees, structural surprises, hazardous-material work</li>
+          </ul>
+        </div>
+        <div class="block block-move">
+          <h4>What moves the number</h4>
+          <ul>
+            <li>Room size versus a 5×7</li>
+            <li>Waterproofing complexity</li>
+            <li>Finish level and fixture choices</li>
+          </ul>
+        </div>
+      </div>
+      <div class="recoup">
+        <div class="recoup-label">JLC 2025 Cost vs. Value (national): about <b>80%</b> recouped · reported value added <b>$20,915</b></div>
+        <div class="meter"><i style="--pct:80%"></i></div>
+        <div class="footnote">Industry context from the JLC report — not a prediction for your Seattle home, and not a promise of resale return.</div>
       </div>
     </article>
 
     <article class="entry">
-      <div><div class="ghost" aria-hidden="true">02</div><div class="tier-name">Midrange</div><h3>Full renovation, same footprint</h3></div>
-      <div><div class="price-prefix">Average</div>
-        <div class="price"><span data-count="26138">$26,138</span></div>
-        <div class="price-meta">Typical 5×7 full bathroom</div></div>
-      <div>
-        <ul>
-          <li>All four fixtures updated: toilet, sink, tub, shower</li>
-          <li>Durable, timeless finishes over high-end customization</li>
-          <li>No footprint expansion, no major layout change</li>
-        </ul>
-        <div class="recoup">
-          <div class="recoup-label">Resale value added <b>$20,915</b> &middot; <b>80%</b> recouped — the strongest ROI tier</div>
-          <div class="meter"><i style="--pct:80%"></i></div>
+      <div class="entry-top">
+        <div><div class="ghost" aria-hidden="true">03</div><div class="tier-name">Universal design</div><h3>Aging-in-place, done beautifully</h3></div>
+        <div>
+          <div class="price-prefix">Typical avg from JLC / our guide</div>
+          <div class="price"><span data-count="42183">$42,183</span></div>
+          <div class="price-meta">Typical accessible 5×7</div>
         </div>
+      </div>
+      <div class="blocks">
+        <div class="block block-in">
+          <h4>Includes</h4>
+          <ul>
+            <li>Fully wheelchair-accessible 5×7 bath with a residential finish</li>
+            <li>Widened entry, curbless shower, blocking for grab bars</li>
+            <li>Comfort-height toilet and an adaptive vanity</li>
+            <li>Safety and usability built into the layout</li>
+          </ul>
+        </div>
+        <div class="block block-out">
+          <h4>Not included</h4>
+          <ul>
+            <li>Expanding beyond a 5×7 footprint</li>
+            <li>Medical-grade equipment or custom accessibility millwork</li>
+            <li>Permit fees, structural reframing surprises, hazardous-material work</li>
+          </ul>
+        </div>
+        <div class="block block-move">
+          <h4>What moves the number</h4>
+          <ul>
+            <li>How much the entry and framing need to change</li>
+            <li>Waterproofing for a curbless floor</li>
+            <li>Fixture and finish choices</li>
+          </ul>
+        </div>
+      </div>
+      <div class="recoup">
+        <div class="recoup-label">JLC 2025 Cost vs. Value (national): about <b>61.2%</b> recouped · reported value added <b>$25,812</b></div>
+        <div class="meter"><i style="--pct:61.2%"></i></div>
+        <div class="footnote">Industry context from the JLC report — not a prediction for your Seattle home, and not a promise of resale return.</div>
       </div>
     </article>
 
     <article class="entry">
-      <div><div class="ghost" aria-hidden="true">03</div><div class="tier-name">Universal design</div><h3>Aging-in-place, done beautifully</h3></div>
-      <div><div class="price-prefix">Average</div>
-        <div class="price"><span data-count="42183">$42,183</span></div>
-        <div class="price-meta">Growing fast in Seattle</div></div>
-      <div>
-        <ul>
-          <li>Fully wheelchair-accessible 5×7 bath — without the clinical look</li>
-          <li>Widened entry, curbless shower, blocking for grab bars</li>
-          <li>Safety and usability with a clean residential finish</li>
-        </ul>
-        <div class="recoup">
-          <div class="recoup-label">Resale value added <b>$25,812</b> &middot; <b>61.2%</b> recouped</div>
-          <div class="meter"><i style="--pct:61.2%"></i></div>
+      <div class="entry-top">
+        <div><div class="ghost" aria-hidden="true">04</div><div class="tier-name">Upscale</div><h3>Expansion &amp; retreat</h3></div>
+        <div>
+          <div class="price-prefix">Typical avg from JLC / our guide</div>
+          <div class="price"><span data-count="81612">$81,612</span></div>
+          <div class="price-meta">Footprint typically grows ~35 → ~100 sq ft</div>
         </div>
+      </div>
+      <div class="blocks">
+        <div class="block block-in">
+          <h4>Includes</h4>
+          <ul>
+            <li>Primary bath expanded — typically ~35 toward ~100 sq ft</li>
+            <li>Layout rebuilt around comfort; fixtures often move</li>
+            <li>Larger tiled shower, soaking tub, dual-sink vanity</li>
+            <li>Higher-end finishes for a retreat, not a refresh</li>
+          </ul>
+        </div>
+        <div class="block block-out">
+          <h4>Not included</h4>
+          <ul>
+            <li>Design retainers and custom architectural services</li>
+            <li>Structural surprises once walls come down</li>
+            <li>Permit fees, HOA fees, or finishes beyond this tier’s story</li>
+          </ul>
+        </div>
+        <div class="block block-move">
+          <h4>What moves the number</h4>
+          <ul>
+            <li>How far the footprint grows</li>
+            <li>Waterproofing and wet-room complexity</li>
+            <li>Fixture and finish level</li>
+          </ul>
+        </div>
+      </div>
+      <div class="recoup">
+        <div class="recoup-label">JLC 2025 Cost vs. Value (national): about <b>41.7%</b> recouped · reported value added <b>$34,000</b></div>
+        <div class="meter"><i style="--pct:41.7%"></i></div>
+        <div class="footnote">Industry context from the JLC report — not a prediction for your Seattle home, and not a promise of resale return.</div>
       </div>
     </article>
 
-    <article class="entry">
-      <div><div class="ghost" aria-hidden="true">04</div><div class="tier-name">Upscale</div><h3>Expansion &amp; retreat</h3></div>
-      <div><div class="price-prefix">Average</div>
-        <div class="price"><span data-count="81612">$81,612</span></div>
-        <div class="price-meta">Footprint typically grows ~35 → ~100 sq ft</div></div>
-      <div>
-        <ul>
-          <li>Primary bath expanded into a genuinely larger space</li>
-          <li>Layout redefined around comfort and openness</li>
-          <li>Experience-first — resale efficiency is not the goal</li>
-        </ul>
-        <div class="recoup">
-          <div class="recoup-label">Resale value added <b>$34,000</b> &middot; <b>41.7%</b> recouped</div>
-          <div class="meter"><i style="--pct:41.7%"></i></div>
-        </div>
+    <aside class="pair" aria-label="Microcement as a bathroom finish">
+      <p class="pair-kicker">Bathroom finish pairing</p>
+      <h3>Considering microcement in the bath?</h3>
+      <p>A thin, hand-applied finish that can wrap walls, floors, and showers without grout lines. Our projects average about <b>$47/sf</b> for materials, application, and waterproofing — scope-dependent, confirmed after a walkthrough.</p>
+      <div class="pair-links">
+        <a href="https://www.duetright.com/what-is-microcement" target="_top">What is microcement</a>
+        <a href="https://www.duetright.com/microcement-bathroom" target="_top">Microcement bathrooms</a>
       </div>
-    </article>
+    </aside>
 
     <p class="src">Sources: our <a href="https://www.duetright.com/blog/seattle-bathroom-remodel-cost" target="_top">2026 Seattle bathroom cost guide</a> (tier averages from the JLC 2025 Cost&nbsp;vs.&nbsp;Value Report) and our <a href="https://www.duetright.com/blog/can-you-renovate-a-bathroom-for-under-10k-in-seattle" target="_top">under-$10K playbook</a>.</p>
   </section>
@@ -291,7 +453,7 @@
   <section class="panel" id="p-t2s" role="tabpanel" aria-labelledby="tab-t2s" tabindex="-1">
 
     <div class="strip">
-      <div class="strip-title">Where each tier lands &middot; $0–$45K+</div>
+      <div class="strip-title">Where each tier lands &middot; published ranges &middot; $0–$45K+</div>
       <div class="strip-plot">
         <span class="gridline" style="left:22.2%"><span>$10K</span></span>
         <span class="gridline" style="left:44.4%"><span>$20K</span></span>
@@ -321,63 +483,155 @@
     </div>
 
     <article class="entry">
-      <div><div class="ghost" aria-hidden="true">01</div><div class="tier-name">Direct swap</div><h3>Acrylic or solid-surface</h3></div>
-      <div><div class="price-prefix">Range</div>
-        <div class="price"><span data-count="7000">$7,000</span>–<span data-count="12000">$12,000</span></div>
-        <div class="price-meta">Typically 3–5 working days</div></div>
-      <div>
-        <ul>
-          <li>Tub out, one-piece or multi-piece shower in — same footprint, same drain</li>
-          <li>New valve trim, glass door or curtain rod, patch and paint</li>
-          <li>Permanent, code-compliant, genuinely easy to clean</li>
-        </ul>
-        <div class="footnote">Anyone promising <b>one day</b> is selling a liner over your old tub — different product, different lifespan.</div>
+      <div class="entry-top">
+        <div><div class="ghost" aria-hidden="true">01</div><div class="tier-name">Direct swap</div><h3>Acrylic or solid-surface</h3></div>
+        <div>
+          <div class="price-prefix">Range</div>
+          <div class="price"><span data-count="7000">$7,000</span>–<span data-count="12000">$12,000</span></div>
+          <div class="price-meta">Typically 3–5 working days</div>
+        </div>
       </div>
+      <div class="blocks">
+        <div class="block block-in">
+          <h4>Includes</h4>
+          <ul>
+            <li>Tub out, one-piece or multi-piece shower in — same footprint, same drain</li>
+            <li>New valve trim, glass door or curtain rod, patch and paint</li>
+            <li>Permanent, code-compliant acrylic or solid-surface unit</li>
+          </ul>
+        </div>
+        <div class="block block-out">
+          <h4>Not included</h4>
+          <ul>
+            <li>A tiled shower or new waterproofing membrane</li>
+            <li>Moving the drain or changing the footprint</li>
+            <li>Permit fees when a jurisdiction requires them</li>
+          </ul>
+        </div>
+        <div class="block block-move">
+          <h4>What moves the number</h4>
+          <ul>
+            <li>Unit quality — acrylic vs solid-surface</li>
+            <li>Valve and glass choices</li>
+            <li>Patch-and-paint scope after the swap</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footnote">A liner installed over an existing tub in a day is a different product, with a different lifespan, than a conversion.</div>
     </article>
 
     <article class="entry">
-      <div><div class="ghost" aria-hidden="true">02</div><div class="tier-name">Tiled walk-in</div><h3>Same footprint</h3></div>
-      <div><div class="price-prefix">Range</div>
-        <div class="price"><span data-count="15000">$15,000</span>–<span data-count="22000">$22,000</span></div>
-        <div class="price-meta">Typically 2–3 weeks</div></div>
-      <div>
-        <ul>
-          <li>Full waterproofing system and sloped pan</li>
-          <li>Floor-to-ceiling tile, niche, pressure-balancing valve</li>
-          <li>Semi-frameless glass panel &middot; plumbing permit usually required</li>
-        </ul>
-        <div class="footnote">The tile isn't what fails — <b>the membrane underneath is</b>. Most of the labor happens before you ever see tile.</div>
+      <div class="entry-top">
+        <div><div class="ghost" aria-hidden="true">02</div><div class="tier-name">Tiled walk-in</div><h3>Same footprint</h3></div>
+        <div>
+          <div class="price-prefix">Range</div>
+          <div class="price"><span data-count="15000">$15,000</span>–<span data-count="22000">$22,000</span></div>
+          <div class="price-meta">Typically 2–3 weeks</div>
+        </div>
       </div>
+      <div class="blocks">
+        <div class="block block-in">
+          <h4>Includes</h4>
+          <ul>
+            <li>Full waterproofing system and sloped pan</li>
+            <li>Floor-to-ceiling tile, niche, pressure-balancing valve</li>
+            <li>Semi-frameless glass panel</li>
+          </ul>
+        </div>
+        <div class="block block-out">
+          <h4>Not included</h4>
+          <ul>
+            <li>A curbless / zero-threshold floor</li>
+            <li>Fixture moves or a larger footprint</li>
+            <li>Permit fees — a plumbing permit is usually required, and sits outside this band</li>
+          </ul>
+        </div>
+        <div class="block block-move">
+          <h4>What moves the number</h4>
+          <ul>
+            <li>Tile choice and wall area</li>
+            <li>Waterproofing system complexity</li>
+            <li>Glass and valve upgrades</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footnote">The tile isn’t what fails — <b>the membrane underneath is</b>. Most of the labor happens before you ever see tile.</div>
     </article>
 
     <article class="entry">
-      <div><div class="ghost" aria-hidden="true">03</div><div class="tier-name">Curbless</div><h3>Zero-threshold</h3></div>
-      <div><div class="price-prefix">Range</div>
-        <div class="price"><span data-count="20000">$20,000</span>–<span data-count="32000">$32,000</span></div>
-        <div class="price-meta">Typically 3–4 weeks</div></div>
-      <div>
-        <ul>
-          <li>Recessed or re-framed subfloor for a flush shower floor</li>
-          <li>Linear drain, extended waterproofing, larger glass</li>
-          <li>Bench and grab-bar blocking &middot; building permit where framing changes</li>
-        </ul>
-        <div class="footnote"><b>The safest shower you can own</b> — and the best-looking one.</div>
+      <div class="entry-top">
+        <div><div class="ghost" aria-hidden="true">03</div><div class="tier-name">Curbless</div><h3>Zero-threshold</h3></div>
+        <div>
+          <div class="price-prefix">Range</div>
+          <div class="price"><span data-count="20000">$20,000</span>–<span data-count="32000">$32,000</span></div>
+          <div class="price-meta">Typically 3–4 weeks</div>
+        </div>
       </div>
+      <div class="blocks">
+        <div class="block block-in">
+          <h4>Includes</h4>
+          <ul>
+            <li>Recessed or re-framed subfloor for a flush shower floor</li>
+            <li>Linear drain, extended waterproofing, larger glass</li>
+            <li>Bench and grab-bar blocking</li>
+          </ul>
+        </div>
+        <div class="block block-out">
+          <h4>Not included</h4>
+          <ul>
+            <li>A full-bath renovation (vanity, toilet, flooring outside the shower)</li>
+            <li>Design retainers or structural surprises in the floor system</li>
+            <li>Building-permit fees where framing changes</li>
+          </ul>
+        </div>
+        <div class="block block-move">
+          <h4>What moves the number</h4>
+          <ul>
+            <li>How much the subfloor needs to drop</li>
+            <li>Waterproofing extent</li>
+            <li>Glass size and finish level</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footnote">A flush floor is the accessibility move — and it usually looks cleaner, too.</div>
     </article>
 
     <article class="entry">
-      <div><div class="ghost" aria-hidden="true">04</div><div class="tier-name">Full renovation</div><h3>Conversion inside a full renovation</h3></div>
-      <div><div class="price-prefix">Range</div>
-        <div class="price"><span data-count="26000">$26,000</span>–<span data-count="45000">$45,000</span><small>+</small></div>
-        <div class="price-meta">Typically 4–6 weeks</div></div>
-      <div>
-        <ul>
-          <li>The conversion plus flooring, vanity, toilet, lighting</li>
-          <li>Exhaust ventilation, electrical, and finishes</li>
-          <li>Plumbing and electrical permits typical</li>
-        </ul>
-        <div class="footnote"><b>One project, one crew, one timeline</b> — instead of two renovations a year apart.</div>
+      <div class="entry-top">
+        <div><div class="ghost" aria-hidden="true">04</div><div class="tier-name">Full renovation</div><h3>Conversion inside a full renovation</h3></div>
+        <div>
+          <div class="price-prefix">Range</div>
+          <div class="price"><span data-count="26000">$26,000</span>–<span data-count="45000">$45,000</span><small>+</small></div>
+          <div class="price-meta">Typically 4–6 weeks</div>
+        </div>
       </div>
+      <div class="blocks">
+        <div class="block block-in">
+          <h4>Includes</h4>
+          <ul>
+            <li>The conversion plus flooring, vanity, toilet, lighting</li>
+            <li>Exhaust ventilation, electrical, and finishes</li>
+            <li>One crew and one timeline for the wet room</li>
+          </ul>
+        </div>
+        <div class="block block-out">
+          <h4>Not included</h4>
+          <ul>
+            <li>Expanding the room or a major layout redesign</li>
+            <li>Designer fixtures or custom millwork beyond this band</li>
+            <li>Permit fees — plumbing and electrical permits are typical, and sit outside this band</li>
+          </ul>
+        </div>
+        <div class="block block-move">
+          <h4>What moves the number</h4>
+          <ul>
+            <li>Finish level across the whole room</li>
+            <li>Fixture moves and waterproofing</li>
+            <li>Electrical and ventilation upgrades</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footnote">Doing the conversion inside a full renovation keeps one crew and one timeline — instead of two projects a year apart.</div>
     </article>
 
     <p class="src">Source: our <a href="https://www.duetright.com/blog/tub-to-shower-conversion-seattle" target="_top">tub-to-shower conversion guide</a> — the same tiers, with the full cost table and FAQ. These are typical ranges, not quotes.</p>
@@ -386,12 +640,12 @@
   </div><!-- /panels -->
 
   <div class="cta-block">
-    <p class="cta-lead">A real number starts with a real scope.</p>
-    <a class="cta" href="https://www.duetright.com/start" target="_top">Get a scoped estimate <span class="arr">&rarr;</span></a>
+    <p class="cta-lead">A real number starts with a walkthrough.</p>
+    <a class="cta" href="https://www.duetright.com/start" target="_top">Get a free quote <span class="arr">&rarr;</span></a>
   </div>
 
   <div class="afterword">
-    <b>How to read these numbers:</b> they're honest starting points from our published Seattle guides, not bids. A real quote is scope-based — your home's condition, your material choices, and what we find behind the walls all move the number. We'd rather tell you that up front. The bands themselves are Austin's department — he prices every DuetRight project, so the numbers on this page and the numbers on a quote come from the same math.
+    <b>How to read these numbers:</b> they're honest starting points from our published Seattle guides, not bids. No email required to browse them. A real quote is scope-based — your home's condition, your material choices, and what we find behind the walls all move the number. We'd rather tell you that up front. The bands themselves are Austin's department — he prices every DuetRight project, so the numbers on this page and the numbers on a quote come from the same math.
     <div class="sig">Angelo &amp; Stan</div>
   </div>
 
@@ -541,10 +795,14 @@
   /* arm the initially visible panel */
   arm(document.getElementById('p-bath'));
 
-  /* iframe auto-height */
+  /* iframe height: keep the wrapper's viewport (max(78vh,700px) on
+     duetright.com) instead of growing to full document height. That
+     leaves an internal scroll, so the trust strip can stay sticky
+     while someone browses tiers. The message type is unchanged. */
   function postHeight(){
     try {
-      parent.postMessage({ type: 'dr-ce-height', h: document.documentElement.scrollHeight }, '*');
+      var viewport = Math.max(700, document.documentElement.clientHeight || 0);
+      parent.postMessage({ type: 'dr-ce-height', h: viewport }, '*');
     } catch (e) {}
   }
   if ('ResizeObserver' in window) {
