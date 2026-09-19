@@ -46,7 +46,8 @@
   /* ---------- trust strip ---------- */
   .trust{position:sticky;top:0;z-index:20;margin-top:20px;
     background:var(--paper);border:1px solid var(--line);border-radius:12px;
-    padding:14px 18px 12px;box-shadow:0 8px 24px rgba(44,43,46,.06)}
+    padding:14px 18px 12px;box-shadow:0 8px 24px rgba(44,43,46,.06);
+    transform:none}
   .trust-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 28px}
   .trust h2{margin:0 0 6px;font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase}
   .trust-in h2{color:var(--teal-deep)}
@@ -230,7 +231,7 @@
     </div>
   </div>
 
-  <aside class="trust fade-item" aria-label="What these cost bands include">
+  <aside class="trust" aria-label="What these cost bands include">
     <div class="trust-grid">
       <div class="trust-in">
         <h2>In these bands</h2>
@@ -364,6 +365,7 @@
           <ul>
             <li>Fully wheelchair-accessible 5×7 bath with a residential finish</li>
             <li>Widened entry, curbless shower, blocking for grab bars</li>
+            <li>Comfort-height toilet and an adaptive vanity</li>
             <li>Safety and usability built into the layout</li>
           </ul>
         </div>
@@ -404,8 +406,9 @@
         <div class="block block-in">
           <h4>Includes</h4>
           <ul>
-            <li>Primary bath expanded into a larger space</li>
-            <li>Layout redefined around comfort and openness</li>
+            <li>Primary bath expanded — typically ~35 toward ~100 sq ft</li>
+            <li>Layout rebuilt around comfort; fixtures often move</li>
+            <li>Larger tiled shower, soaking tub, dual-sink vanity</li>
             <li>Higher-end finishes for a retreat, not a refresh</li>
           </ul>
         </div>
@@ -434,9 +437,9 @@
     </article>
 
     <aside class="pair" aria-label="Microcement as a bathroom finish">
-      <p class="pair-kicker">Finish pairing · not a separate project tab</p>
+      <p class="pair-kicker">Bathroom finish pairing</p>
       <h3>Considering microcement in the bath?</h3>
-      <p>A thin, hand-applied finish that can wrap walls, floors, and showers without grout lines. Our projects average about <b>~$47/sf</b> for materials, application, and waterproofing — scope-dependent, confirmed after a walkthrough.</p>
+      <p>A thin, hand-applied finish that can wrap walls, floors, and showers without grout lines. Our projects average about <b>$47/sf</b> for materials, application, and waterproofing — scope-dependent, confirmed after a walkthrough.</p>
       <div class="pair-links">
         <a href="https://www.duetright.com/what-is-microcement" target="_top">What is microcement</a>
         <a href="https://www.duetright.com/microcement-bathroom" target="_top">Microcement bathrooms</a>
@@ -792,10 +795,14 @@
   /* arm the initially visible panel */
   arm(document.getElementById('p-bath'));
 
-  /* iframe auto-height */
+  /* iframe height: keep the wrapper's viewport (max(78vh,700px) on
+     duetright.com) instead of growing to full document height. That
+     leaves an internal scroll, so the trust strip can stay sticky
+     while someone browses tiers. The message type is unchanged. */
   function postHeight(){
     try {
-      parent.postMessage({ type: 'dr-ce-height', h: document.documentElement.scrollHeight }, '*');
+      var viewport = Math.max(700, document.documentElement.clientHeight || 0);
+      parent.postMessage({ type: 'dr-ce-height', h: viewport }, '*');
     } catch (e) {}
   }
   if ('ResizeObserver' in window) {
